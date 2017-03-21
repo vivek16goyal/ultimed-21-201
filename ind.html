@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link href="//code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.8.1.min.js"></script>
+    <script src="//code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+     <script type="text/javascript" src="js/jquery-ui-1.10.3.js"></script>
+    <script src="assets/js/iscroll-zoom.js"></script>
+    <script type="text/javascript" src="PushNotification.js"></script>
+    <script src="assets/js/push_notification.js"></script>
+    <script src="assets/js/index1.js"></script>
+    <script src="assets/js/index.js"></script>
+    <title>ULTIMED</title>   
+    <script src="js/jquery.js"></script>
+    <style>
+        .first-main-page {
+            background-color:white; /*#1390cf*/ /*1094d7*/
+            overflow: hidden;
+        }
+        
+        .font {
+            color: #f1f0f2;
+            font-family: Verdana;
+            font-weight:900;
+            background-color: #d0dff8;
+        }
+        .span-tia{
+            font-size:17vmin;
+        }
+        .span-erp {
+            font-size: 10vmin;
+            display: block;
+            margin-top: -5vmin;
+            /*margin-left: 10vmin;*/
+        }
+
+        .shade
+        {
+           text-shadow:2px 2px 12px #9ef6b3;
+        }
+        
+        .p-footer {            
+            position: absolute;
+            color: #808080;
+            font-family: Verdana;
+            font-size: 4vmin;
+            bottom: 0%;
+            right: 1%;
+            font-weight:100;
+        }
+       
+        .p-footer img{
+            width:20vh;
+            height:8vh;
+           
+        }
+    </style>
+     <link rel=" stylesheet" href="assets/css/animate.css">
+    <script>
+        
+        document.addEventListener("deviceready", onDeviceReady, true);
+        function onDeviceReady() {
+            try{               
+                $("#8").show()
+                textAnim('8', 'bounceInDown');
+                c = setTimeout(function () {
+                    textAnim('8', 'flip'); 
+                }, 800);
+           
+                a = setTimeout(function () {
+                    $("#LoText").show();
+                    textAnim('LoText', 'bounceInUp');
+                }, 1000);
+
+                b = setTimeout(function () {
+                    window.location = "index01.html";
+                }, 5000);
+            }
+            catch (e) {
+                alert(e.message);
+            }
+        }
+        function textAnim(evt, str) {
+            try {
+                $('#' + evt).addClass(str + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                    $('#' + evt).removeClass(str + ' animated');                    
+                });
+            } catch (err) {
+            }
+        };
+    </script>
+</head>
+
+<body class="first-main-page font" onload="cliencode_check()" >
+        <script type="text/javascript" src="cordova.js"></script>
+
+  <center>
+     <div id="div" style="margin-top:35vmin;">
+       <div style="width:100%">
+           <img id="8" src="assets/img/A2Z Dawa.png" style="width:80vw;height:35vh; margin-left:-10px; display:none"/>           
+       </div>
+        <div id="LoText" style="display:none"> <label  style="color:#2b80a1;font-size:x-large;font-weight:bold;">We provide <a style ="font-weight :bold">UTIMED</a>solution for your Medicinal Need </label></div>
+     </div>
+
+      <div onload="cliencode_check()" id ="consumer"></div>
+      </center>
+    <p class="p-footer">
+        Powered By: Goyal Bros & Co
+    </p> 
+</body>
+
+</html>

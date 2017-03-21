@@ -1,0 +1,2332 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+    <title>UltiMED</title>
+    <link rel=" stylesheet" href="assets/css/jqm-demos.css">
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.5.min.css">
+    <link rel=" stylesheet" href="assets/css/animate.css">
+    <link rel=" stylesheet" href="assets/css/TableCSSCode.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/slidemenu.css" rel="stylesheet">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <!--for autocomplete-->
+    <script type="text/javascript" src="js/jquery-ui-1.10.3.js"></script>
+    <script src="assets/js/iscroll-zoom.js"></script>
+    <script src="assets/js/jquery.slidemenu.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script>
+        $("#container1").bind('pageinit', function (event) {
+
+            $("#leftclicker").attr("href", "#OrderItemSearch");
+            $("#rightclicker").attr("href", "#Item-cart");
+
+            $("#container1").swipe({
+                swipe: function (event, direction, distance, duration, fingerCount) {
+                    if (direction == 'left') {
+                        $("#rightclicker").click();
+                    }
+                    if (direction == 'right') {
+                        $("#leftclicker").click();
+                    }
+                },
+                threshold: 0,
+                fingers: 'all'
+            });
+        });
+
+    </script>
+    <script>
+
+        function CheckEmail(e) {
+            if (document.getElementById("txtemail").value != "") {
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(document.getElementById("txtemail").value)) {
+                    return (true)
+                }
+                alert("You have entered an invalid email address!");
+                $("#txtemail").focus();
+                return (false)
+            }
+        }
+    </script>
+
+    <style>
+        .wrapper {
+            position: absolute;
+            z-index: 1;
+            top: 68px;
+            bottom: 50px;
+            left: 10px;
+            right: 10px;
+            overflow: hidden;
+        }
+
+        .scroller {
+            position: absolute;
+            z-index: 1;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            width: 100%;
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            -o-text-size-adjust: none;
+        }
+
+        .full_image {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+            .full_image img {
+                width: 250px;
+                height: 200px;
+            }
+
+            .full_image .full_close {
+                background-color: #1390cf;
+                top: 10px;
+                cursor: pointer;
+                height: 29px;
+                opacity: 1;
+                position: absolute;
+                width: 29px;
+                z-index: 999;
+                right: 10px;
+                color: white;
+                text-decoration: none;
+                text-align: center;
+                line-height: 28px;
+            }
+
+
+        #item-info-body table label {
+            margin-top: 5px;
+        }
+
+        .close-img {
+            margin-top: -10px;
+            margin-right: -9px;
+        }
+
+        .footer-img {
+            margin-left: 3vw;
+            margin-right: 3vw;
+        }
+
+
+        /* Left transition */
+        li.left {
+            -webkit-transition: -webkit-transform 250ms ease;
+            -webkit-transform: translateX(-100%);
+            -moz-transition: -moz-transform 250ms ease;
+            -moz-transform: translateX(-100%);
+            -o-transition: -o-transform 250ms ease;
+            -o-transform: translateX(-100%);
+            transition: transform 250ms ease;
+            transform: translateX(-100%);
+        }
+        /* Right transition */
+        li.right {
+            -webkit-transition: -webkit-transform 250ms ease;
+            -webkit-transform: translateX(100%);
+            -moz-transition: -moz-transform 250ms ease;
+            -moz-transform: translateX(100%);
+            -o-transition: -o-transform 250ms ease;
+            -o-transform: translateX(100%);
+            transition: transform 250ms ease;
+            transform: translateX(100%);
+        }
+            /* Border bottom for the previous button during the transition*/
+            li.left a.ui-btn,
+            li.right a.ui-btn {
+                border-top-width: 0;
+                border-left-width: 1px;
+                border-right-width: 1px;
+            }
+
+        li a.ui-btn.border-bottom {
+            border-bottom-width: 1px;
+        }
+        /* Hide the delete button on touch devices */
+        ul.touch li.ui-li-has-alt a.delete {
+            display: none;
+        }
+
+        ul.touch li.ui-li-has-alt a.ui-btn {
+            margin-right: 0;
+        }
+        /* Styling for the popup */
+        #confirm p {
+            text-align: center;
+            font-size: inherit;
+            margin-bottom: .75em;
+        }
+
+        #Div23 p {
+            text-align: center;
+            font-size: inherit;
+            margin-bottom: .75em;
+        }
+    </style>
+
+</head>
+<body onload="onDeviceReady()" onkeydown="PreventBackSpace(event)" id="bodyFont">
+    <div id="page-con" data-role="page" class="jqm-demos" style="overflow: auto;">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a id="a_div-clientCode" data-rel="popup" data-position-to="window" href="#div-clientCode" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-user ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white;">Login</a>
+            <img id="imgcheck" src="assets/img/yellow.gif" alt="Checking Status" class="ui-btn-right alert-img">
+            <img id="off" src="assets/img/red.gif" alt="Offline" class="ui-btn-right alert-img" style="display: none">
+            <img id="on" src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg" style="display: none">
+            <img id="img_lnk_back" src="assets/img/back.png" alt="Back" class="ui-btn-left alert-imgOn" style="display: none; margin-left: 20px; cursor: pointer;">
+            <a id="lnk_login" href="#Login" data-rel="popup" data-transition="flip" data-position-to="window" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-user ui-nodisc-icon ui-alt-icon ui-btn-right " style="background-color: white; display: none;">Login</a>
+            <a id="lnk_logout" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-power ui-nodisc-icon ui-alt-icon ui-btn-right" style="background-color: white; display: none;" onclick="logout('1')">Logout</a>
+            <h2 id="heading">TiaERP@App</h2>
+        </div>
+        <div role="main" id="Homepage">
+            <div id="menu-side-bar">
+                <div class="slide-menu" id="menuList">
+                    <ul class="menu-items">
+
+                        <li class="menu-item" title="SETTING" id="li-setting">
+                            <div class="menu-header">
+                                <div class="menu-icon">
+                                    <i class="fa">
+                                        <img src="assets/img/mnuSETTING.png" style='width: 9vmin;' /></i>
+                                </div>
+                                <div class="menu-content">
+                                    <span>SETTING</span>
+                                </div>
+                                <div class="menu-close">
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="menu-body">
+                                <center>
+                        <br />
+                             <ul data-role="listview" style="width:85%"  class="ui-listview" id="setting-menu">
+                                 <li onclick="GetAppUserInfo();" class='ui-li-has-icon ui-first-child' ><a href="#appSetting-div"  data-transition="flip" style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png'  alt='USA' class='ui-li-icon'>App Setting</a></li>
+                                 <!--<li  class='ui-li-has-icon ui-first-child' ><a href="#DisplaySetting"   data-transition="flip" style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>Display Setting</a></li>-->
+                             </ul>
+                    </center>
+                            </div>
+                        </li>
+
+                        <li class="menu-item" id="li3" onclick="exitAppMenu()" style='position: absolute; top: 15vmin;'>
+                            <div class="menu-header">
+                                <div class="menu-icon">
+                                    <i class="fa">
+                                        <img src='assets/img/mnuEXIT.png' style='width: 9vmin;' /></i>
+                                </div>
+                                <div class="menu-content"><span>Exit</span> </div>
+                                <div class="menu-close"><i class="fa fa-times"></i></div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+            <br />
+
+
+            <!--<a id="setting_a" onclick="SettingWind()" style="position: fixed; left: 5px; top: 60px;">
+                <img src="assets/img/wrench.png" style="width: 25px; height: 25px; padding: 7px; background-color: #1390cf; border-radius: 20px" /></a>
+            <a id="user_a" href="#ReqSend-Acc" style="position: fixed; right: 5px; top: 60px;">
+                <img src="assets/img/users.png" style="width: 25px; height: 25px; padding: 7px; background-color: #1390cf; border-radius: 20px" /></a>-->
+            <div class="MainDiv" id="HomePage">
+                <div>
+                    <a href=".././">
+                        <img src="assets/img/tia.png" alt="jQuery Mobile" class="MainDiv-logo" id="mainDivLogo"></a>
+                    <div class="MainDiv-text">
+                        <p>
+                            A software for business that does everything. From controlling your business to improving your profits and more.
+                            <br />
+                            <br />
+                            Visit: <a href="www.goyalonline.com" onclick="Reset()">www.goyalonline.com </a>
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!---menu btn ---!>
+
+            <!-- <a id="a_div-clientCode" data-rel="popup" data-position-to="window" href="#div-clientCode" data-transition="flip" style="display:none"></a>-->
+            <div data-role="popup" id="div-clientCode" class="ui-corner-all" data-overlay-theme="b" data-dismissible="false">
+                <form>
+                    <div style="padding: 10px 20px;">
+                        <center>
+                            
+                            <div id="ClCode">
+                                <label>Registration Code</label>
+                                <input type="text" id="txt-clientCode" value="" placeholder="Enter Registration Code" data-theme="a">
+                                <input  type="button" value="OK" style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;" onclick="fun_CheckPartyReg()" />
+                            </div>
+                            <div id="creditial">
+                                <label style="margin-bottom:10px;">Login To GBC Server</label>
+                                <input type="text" id="txt-GBCUserId" value="" placeholder="Enter UserId" data-theme="a">
+                                <input type="password" id="txt-GBCPass" value="" placeholder="Enter Password" data-theme="a">
+                                <input type="button" value="OK" style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;" onclick="fun_GBCLogin('1')" />
+                            </div>
+                            
+                        </center>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <div data-role="popup" id="Login" data-theme="a" data-overlay-theme="b" class="ui-corner-all set-min-width " data-dismissible="false">
+                <form id="login-form">
+                    <div class="popup-sub-div">
+                        <p class="popup-heading">Login</p>
+                        <a class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+                        <center>
+                            <img src="assets/img/User.png" alt="jQuery Mobile" style="width:80px;height:80px;">
+                            <input type="text" name="UserNmae" id="UserNmae" value="" placeholder="User Name" data-theme="a" >
+                            <input type="password" name="Pass" id="Pass" value="" placeholder="Password" data-theme="a" >
+                            <label style="margin-top:0px;padding-left:2px;font-weight:normal">
+                                <input type="checkbox" name="checkbox-0" id="chkRemPass">Stay singed in
+                            </label>
+                            <div id="div-btn-login" class="ui-btn ui-input-btn ui-corner-all ui-shadow">OK<input type="button" value="OK"  style="height:40px" onclick="login()"></div>
+                            
+                            <div class="msgDiv" style="margin-top:-13vmin;">
+                                <center>
+                                    <p id="LoginMsg" class="msgContent">
+                                    </p>
+                                </center>
+                            </div>
+                        </center>
+                    </div>
+                </form>
+            </div>
+
+
+            <label id="lblexit" class="exit-lbl" style="display: none">Press once again to exit</label>
+
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <!-- //change vivek new item cart//-->
+
+
+
+    <div data-role="page" id="Item-Info-Search" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div>
+                <a href="#Item-cart" data-transition="flip">
+                    <img src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" class="ui-btn-right cart-cnt-lbl" style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold;"></label>
+                </a>
+            </div>
+            <h2 id="h_item-Info" style="color: white;">Order</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+                <center>
+                    <label id="itm-partName"></label>
+                    <p style="margin:0px;padding:0px;" id="itm-partAdd"></p>
+                </center>
+                <div id="item-search-body">
+                    <label class="msgText hide" id="msgText2">No Record Found...</label>
+                    <label>Item Name</label>
+                    <input type="text" id="itm-srch" placeholder="Enter Item Name..." data-theme="a" data-type="search" />
+                    <a id="a_Item-Info-Search-Body" href="#Item-Info-Search-Body" data-transition="flip" style="display: none"></a>
+                    <br />
+                </div>
+            </div>
+            <div id="Item-cart02" class="jqm-demos">
+
+
+                <!-- /header -->
+                <div role="main" class="ui-content">
+                    <div class="btn-div" style="margin-left: 25vw; width: 40vw;" id="Empty">
+                        <center>
+                    <table>
+                        <tr>
+                            <td id="td-basket" onclick="fun_nextItem()">
+                                <a><img src="assets/img/cart.png"></a>
+                                <center>
+                                    <p style="font-weight:bold;">Your Basket Is Empty. Please Add Item</p>
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                    </div>
+                    <div id="Div21">
+                        <center>
+                    <p id="P2" style="margin-top:-8px;margin-bottom:0px;"></p>
+                    <table style="width:90%" id="cart-tblamt">
+                        <tr>
+                            <td><label>GrossAmt</label></td>
+                            <td style="float:right"><label id="grsamt" style="color:#1390cf;margin-right:1vmin"></label></td>
+                            <td><label>NetAmt</label></td>
+                            <td style="float:right"><label id="netamt" style="color:#1390cf"></label></td>
+                        </tr>
+                    </table>
+                    <label id="cart-totalamt" style="color:#1390cf;margin-top:5px;"></label>
+                    <img alt="Prescription" id="orderpre" style="display:none;width:150px;height:150px;" src="icon.png"/>
+                </center>
+                        <div data-theme="b" class="my-page" style="margin-top: -32px;">
+
+
+                            <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_Wsal">
+                                <ul data-role="listview" data-inset="true" id="Itm_GridWSale" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                            </div>
+                            <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_Sale">
+                                <ul data-role="listview" data-inset="true" id="Itm_GridSale" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                            </div>
+                            <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_QTTN">
+                                <ul data-role="listview" data-inset="true" id="Itm_GridQTTN" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                            </div>
+                            <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_QTNW">
+                                <ul data-role="listview" data-inset="true" id="Itm_GridQTNW" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                            </div>
+                            <table class="ui-content" style="margin-top: -30px; margin-left: 10px; padding: 0; width: 90%;">
+                                <tr>
+                                    <td>
+                                        <a data-transition="slide">
+                                            <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf" onclick="fun_nextItem()">
+                                                <img id="Img11" src="assets/img/add.png" alt="Add Item">
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <!--<td id="td-invioce-nxt">
+                                <a ><div id="div-img-save" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" ><img id="save" src="assets/img/arrow-right.png" alt="Save"></div></a>
+                            </td>-->
+                                    <td id="td2">
+
+                                        <a id="A6" href="#PTDR-Info-Search" data-transition="flip" data-position-to="window" style="display: none"></a>
+                                        <a id="invoice" href="#Div27" data-rel="popup" data-transition="flip" data-position-to="window" style="display: none"></a>
+                                        <a id="A8" href="#Div24" data-rel="popup" data-transition="flip" data-position-to="window" style="display: none"></a>
+                                        <a>
+                                            <div onclick="nxt_itemCart()" class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf">
+                                                <img src="assets/img/arrow-right.png" alt="nxt">
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            <div class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" onclick="fun_cancel()">
+                                                <img id="Img12" src="assets/img/cancel1.png" alt="Canecl">
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <button style="display: none;" class="show-page-loading-msg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Saving Data..." data-inline="true">B</button>
+                            <button style="display: none;" class="hide-page-loading-msg" data-inline="true" data-icon="delete">Hide</button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /content -->
+                <div id="Div23" class="ui-content" data-role="popup" data-theme="a">
+                    <p id="P3">Are you sure you want to delete this item?</p>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <a id="yes1" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Yes</a>
+                        </div>
+                        <div class="ui-block-b">
+                            <a id="cancel1" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /popup -->
+                <div data-role="popup" id="Div24" data-dismissible="false" data-theme="a" data-overlay-theme="b">
+                    <a id="A11" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+                    <div class="ui-field-contain" style="margin: 15px; width: 257px;">
+                        <label for="Select1">Order Type:</label>
+                        <select id="Select2" data-native-menu="false" class="filterable-select" onchange="SaveOrderType(this)">
+                        </select>
+                        <div id="div25">
+                            <table>
+                                <tr>
+                                    <td>Patient:
+                                    </td>
+                                    <td>
+                                        <input type="text" id="Text1" placeholder="Patient Name..." data-theme="a" data-type="search" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Doctor:
+                                    </td>
+                                    <td>
+                                        <input type="text" id="Text2" placeholder="Doctor Name..." data-theme="a" data-type="search" />
+                                        <div id="Div26" style="width: 90%" class="display-none">
+                                            <label style="margin-top: -5px;" id="Label8"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br />
+                        <center>
+                    <a onclick="show_SaveWin()" style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;text-decoration:none">OK</a>
+                </center>
+                    </div>
+                </div>
+                <div data-role="popup" id="Div27" data-dismissible="false" data-theme="a" data-overlay-theme="b">
+                    <a class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+
+                    <table class="ui-content" style="width: 90%;">
+                        <tr>
+                            <td onclick="SaveOrderWsale('0')">
+                                <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                                    <img id="Img13" src="assets/img/save.png" alt="Save">
+                                </div>
+                            </td>
+                            <td onclick="SaveOrderWsale('1')">
+                                <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                                    <img id="Img14" src="assets/img/print.png" alt="Save&Print">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" onclick="fun_cancel()">
+                                    <img id="Img17" src="assets/img/cancel.png" alt="Canecl">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+                <div data-role="panel" id="div28" data-position="right" data-display="push" data-theme="a">
+                    <div class="ord-header">
+                        <label style="margin-left: 2.2em">Voucher Details</label>
+                    </div>
+                    <div class="ord-det">
+                        <p>Sale Rep</p>
+                        <a>
+                            <label id="Label9"></label>
+                        </a>
+                        <p>Party Name</p>
+                        <a onclick="show_PartyWin()" data-transition="flip">
+                            <label id="Label10"></label>
+                        </a>
+                        <p>Cart Details</p>
+                        <a data-rel="close">
+                            <label id="detail_cart" class="cart-cnt-lbl"></label>
+                        </a>
+                        <div id="Div29">
+                            <div class="full_image">
+                                <img id="Img18" alt="NoImage" onclick="FullSize()" style="width: 150px; height: 100px" />
+                                <a href="#" class="full_close" style="font-size: small" onclick="Close_img()">X</a>
+                            </div>
+                            <a href="#ImageSelect" data-transition="flip">
+                                <div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf; padding: 5px; width: 40px; float: right; display: inline; margin-top: 0px;" id="div30">
+                                    <img src="assets/img/images.png" alt="Browse Image">
+                                </div>
+                            </a>
+                        </div>
+                        <p>Bill Amount</p>
+                        <span>
+                            <img src="assets/img/rupee.png" alt="Rs" class="rupes" />
+                        </span><span class="amt-color" id="detail_amt"></span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div data-role="popup" id="div-party" class="ui-corner-all">
+                <form>
+                    <div style="padding: 10px 20px;">
+                        <center>
+                            <label>Party Name</label>                            
+                            <input type="text" data-type="search" name="user" id="txt-party-p" value="" placeholder="Party Name" data-theme="a" onchange="serchtxt_clear(this,'5');">
+                            <input type="button" value="OK"  style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;" onclick="Close_div_party()"/>
+                        </center>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a data-icon="check" data-iconpos="notext" onclick="Save()" class="footer-img">Save</a>
+            <a data-rel="popup" data-position-to="window" href="#div-party" data-transition="flip" data-icon="user" data-iconpos="notext" class="footer-img"></a>
+            <a onclick="fun_cancel()" data-icon="action" data-iconpos="notext" class="footer-img">Exit</a>
+            <a data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img" onclick="fun_showCart()">next</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="Item-Info-Search-Body" data-title="Inbox" class="jqm-demos">
+        <div>
+            <div data-role="header" data-position="fixed" class="jqm-header">
+                <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+                <div>
+                    <a href="#Item-cart" data-transition="flip">
+                        <img src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                        <label onclick="fun_showCart()" class="ui-btn-right cart-cnt-lbl" style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold;">0</label>
+                    </a>
+                </div>
+                <h2 id="heading-Info-Search-Body" style="color: white;">Order</h2>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="body-with-shadow">
+                    <br />
+                    <div id="item-info-body" style="font-family: Verdana;">
+                        <label id="lbl_Exp" style="display: none;"></label>
+                        <label id="lbl_ConVr" style="display: none;"></label>
+                        <label id="lbl_ConSl" style="display: none;"></label>
+                        <label id="lblItmCode" style="display: none;"></label>
+                        <label id="lbl_Packing" style="display: none;"></label>
+                        <label id="lbl_BatckStkTot" style="display: none;"></label>
+                        <label id="lbl_shelf" style="display: none;"></label>
+
+
+                        <label id="lblItmMRP" style="float: right; background-color: #137ab0; color: white; padding: 3px;"></label>
+                        <label id="lblItmName" style="color: #137ab0; font-weight: bold"></label>
+                        <label id="PackExp" style="margin-top: -6px;"></label>
+                        <table style="width: 100%; display: inline-block;" cellpadding="0">
+                            <tr style="height: 10px;">
+                                <td>Rate:
+                                </td>
+                                <td>
+                                    <label id="lblRate"></label>
+                                </td>
+                                <td id="td-lblstk">
+                                    <p>Total Stock:</p>
+                                </td>
+                                <td id="td-lblstkval" style="text-align: right">
+                                    <label id="lblItmstk"></label>
+                                </td>
+
+                            </tr>
+                            <tr id="row-batch">
+                                <td>Batch:
+                                </td>
+                                <td style="text-align: center;">
+                                    <label id="lblItmBtch"></label>
+                                </td>
+                                <td colspan="2">
+                                    <div class="ui-corner-all " style="background-color: #137ab0; width: 20vw; text-align: center; cursor: pointer; padding: 5px; float: right" onclick="fun_ShowChangeList()">
+                                        <img src="assets/img/loop31.png" alt="Change Batch" />
+                                    </div>
+                                </td>
+
+                            </tr>
+                            <tr id="row-qty-purchSz">
+                                <td colspan="3">
+                                    <p>Purc-Size:</p>
+                                </td>
+                                <td style="text-align: left;" colspan="1">
+                                    <label id="lblItmPurSz"></label>
+                                </td>
+                            </tr>
+
+                            <tr id="rowBxSz">
+                                <td>Bx Sz:
+                                </td>
+                                <td colspan="3">
+                                    <label id="lblbxsz" style="padding-left: 10px;"></label>
+                                </td>
+                            </tr>
+                        </table>
+                        <span>Genric:                            
+                                <a href="#altITem" data-transition="slidedown" onclick="SubstitudeItemList()" id="lblContent" style="margin-left: 5px; width: 80%; word-wrap: break-word; display: inline-block;"></a>
+                        </span>
+
+
+                        <table style="width: 100%; display: inline-block;" cellpadding="0">
+                            <tr id="row-qty">
+                                <td>Qty:
+                                </td>
+                                <td colspan="3">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <input type="number" min="1" data-theme="a" id="txt-qty" placeholder="Qty" style="display: inline;" pattern="[0-9]" />
+
+                                            </td>
+                                            <td>
+                                                <input type="number" min="1" data-theme="a" id="txt-free" placeholder="Free" style="display: inline;" pattern="[0-9]" />
+
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+                        </table>
+                        <a href="#Chng_batch" data-transition="flip" id="a_opnBatchList" style="display: none">Click</a>
+                        <label class="msgText hide" id="msgText0">Enter Quantity...</label>
+                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background-color: #1390cf; color: #fff; text-decoration: none; font-weight: normal;" id="insert_itemInfo">Add to cart<input type="button" value="Add To Cart" style="height: 40px" onclick="    fun_AddToCart()" id="add-item-cart"></div>
+                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background-color: #1390cf; color: #fff; text-decoration: none; font-weight: normal;" id="update_itemInfo">Update<input type="button" value="Update" style="height: 40px" onclick="    fun_AddToCart()"></div>
+                        <a id="rate_warning" onclick="ReCheckItemRate()" style="display: none; color: red; font-size: 14px;">Selected Item Rate Is 0.00 Rs. Wish To ReCheck?</a>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div data-role="footer" data-position="fixed" class="my-footer">
+                <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" class="footer-img" style="float: left;">Back</a>
+                <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+                <a data-icon="action" data-iconpos="notext" class="footer-img" onclick="fun_cancel()">exit</a>
+                <a data-icon="carat-r" data-iconpos="notext" style="margin: 10px; float: right" class="footer-img" onclick="fun_showCart()">next</a>
+            </div>
+        </div>
+    </div>
+    <div data-role="page" id="Party-Info-Search" class="jqm-demos" data-title="Inbox">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div class="display-none" id="cart-img-lbl">
+                <a href="#Item-cart" data-transition="flip">
+                    <img src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" class="ui-btn-right cart-cnt-lbl" style="display: none; text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold;"></label>
+                </a>
+            </div>
+            <h2 style="color: white;" id="h_partydiv">WholeSale Bill</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+
+                <div id="party-body">
+                    <label id="lbl_saleRep" class="lbl-right-top" style="margin-top: -20px; margin-right: -7px;">Sales Rep</label>
+                    <label class="msgText hide" id="msgText1">No Record Found...</label>
+                    <label>Area Name</label>
+                    <input type="text" id="area-srch" placeholder="Enter Area Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'2');" />
+                    <label>
+                        Party Name 
+                        <span style="float: right"><a href="#div-partyMst" data-transition="flip" style="background-color: #1390cf; border-radius: 5px; padding: 2vmin">
+                            <img src="assets/img/plus.png" alt="Add Party"></a></span>
+                    </label>
+                    <input type="text" id="party-srch" placeholder="Enter Party Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'1');" />
+                    <center>
+                        <p style="margin:0px;padding:0px" id="party-srch-add"></p>
+                        <div id="div-party-info" class="display-none">
+                            <label style="display:inline">Ledger Balance:</label> <label id="lblLdgBal" style="color:#137ab0;font-weight:bold;display:inline">00.00</label>
+                        </div>
+                        <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-3px;">
+                            <tr>
+                                <td>
+                                    <a data-rel="back"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div-backparty" onclick="highlight_Control('div-backparty')"> <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                                </td>                               
+                                <td>
+                                    <a href="#div-party-ldgr" data-transition="flip" onclick="ShowPartyLdgr()"  class="hide" id="div-ldgrpt"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf"> <img src="assets/img/ldg-book.png" alt="Party Ledger"></div></a>
+                                </td>
+                               <!-- <td class="hide" id="div-img-a">
+                                    <a href="#ImageSelect" ><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div2" onclick="highlight_Control('div2')"> <img src="assets/img/images.png" alt="Browse Image"></div></a>
+                                </td>-->
+                                <td>
+                                    <a  data-transition="flip" class="hide" id="div-okparty"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf" onclick="fun_nextItem()"> <img id="okparty" src="assets/img/arrow-right.png" alt="next"></div></a>
+                                </td>
+                            </tr>
+                       </table>
+                        
+                    </center>
+                </div>
+                <br />
+            </div>
+        </div>
+        <!-- /popup -->
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img" onclick="fun_nextItem()">next</a>
+        </div>
+    </div>
+
+    <div id="Chng_batch" data-role="page" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+
+            <h2 id="heading" style="color: white;">Batch List</h2>
+        </div>
+
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+                <div>
+                    <label id="b-Mrp" style="float: right; background-color: #137ab0; color: white; padding: 3px; margin-top: 8px">MRP</label>
+                    <label id="b-iname" style="color: #137ab0; font-weight: bold">Item Name Item</label>
+                    <label id="b-pack" style="margin-top: -5px; float: left;">Packing</label>
+                    <!--  <label id="b-shelf" style="font-size:13px;margin-top:-5px;float:left;margin-left:3px;">(Shelf)</label>-->
+                </div>
+                <div role="main" class="ui-content" style="overflow-x: visible; width: 90%">
+                    <ul data-role="listview" data-inset="true" id="Btch_Grid" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                </div>
+                <br />
+            </div>
+        </div>
+        <!-- /popup -->
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a id="nxt-partysearch" data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img hide" onclick="fun_nextItem()">next</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="div-party-ldgr" data-theme="a" style="overflow: no-display;" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <!--<img id="Img8" src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">-->
+            <h2 id="heading" style="color: white;">Party Ledger</h2>
+            <a onclick="SetEmailDefaultValue()" data-icon="mail" data-iconpos="notext" style="margin-right: 10px; background-color: white;" href="#Mail-Body" data-rel="popup" data-transition="slidedown">Back</a>
+        </div>
+        <center>
+            <div style="width:92%">
+                <div id="Mail-Body" style="padding:10px" data-role="popup" data-theme="a">
+                    <center>
+                        <table>
+                            <tr>
+                                <td>
+                                    To:
+                                </td>
+                                <td>
+                                    <input type="text" data-theme="a" id="txt_ldgToEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Subject:
+                                </td>
+                                <td>
+                                    <input type="text" data-theme="a" id="txt_ldgSubject" value="Party Ledger" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Body:
+                                </td>
+                                <td>
+                                    <textarea style="height:60px" id="txt_ldgBody">
+                                    </textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Footer/Sign</td>
+                                <td>
+                                    <textarea id="txt_ldgFooter"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <input onclick="SendLedgerEmail()" type="button" value="OK" style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;"  />
+                    </center>
+                </div>
+                <div data-role="popup" id="ldgRpt_para" data-theme="a">
+                    <div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" style="margin:0; width:250px;">
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>From Date</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <input type="date" id="frmdt_ldg" />
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>To Date</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <input type="date" id="todt_ldg" />
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>Include Op Bal</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <select data-theme="a" data-role="flipswitch" id="flip-chk-opBal">
+                                        <option value="0">NO</option>
+                                        <option value="1" selected="selected">Yes</option>
+                                    </select>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>Summary</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <select data-theme="a" data-role="flipswitch" id="flip-chk-sumary">
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected="selected">No</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                    </div><!-- /collapsible set -->
+                </div>
+                <br />
+                <label id="lblPnameldgBal" style="margin-top:10vmin;"></label>
+                <label id="lblOPBal"  style="width:40%;color:#137ab0">Op-Bal</label>
+                <a onclick="ShowPartyLdgr()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:7%;position:absolute;right:5px;top:55px;"> <img src="assets/img/refresh.png" alt="Refresh"></div></a>
+                <a href="#ldgRpt_para" data-rel="popup" data-transition="slidedown"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:7%;position:absolute;left:5px;top:55px;"> <img src="assets/img/paragraph-center.png" alt="Parameter"></div></a>
+                
+                <div style="overflow:auto;width:100%;">
+                    <!--<div id="wrapper">
+	                    <div id="scroller">-->
+                            <div id="ldgRpt-body" style="display:none;padding: 3px;">
+                            </div>
+                            <div id="ldgRpt-body-summary" style="display:none;">
+                                <label class="lablAmt" id="lbl-s-dr"></label>
+                                <label class="lablAmt" id="lbl-s-cr"></label>
+                                <label class="lablAmt" id="lbl-s-bal"></label>
+                            </div>
+                       <!-- </div>
+                    </div>-->
+                </div>
+                <br />
+                <!--<a onclick="ShowPartyLdgr()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:15%;position:absolute;right:5px;bottom:5px;"> <img src="assets/img/refresh.png" alt="Party Ledger"></div></a>-->
+            </div>
+        </center>
+    </div>
+
+    <div data-role="page" id="PTDR-Info-Search" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div>
+                <a href="#Item-cart" data-transition="flip">
+                    <img src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" class="ui-btn-right cart-cnt-lbl" style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold;"></label>
+                </a>
+            </div>
+            <h2 id="heading" style="color: white;">Retail Bill</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <div id="PtDr-info-body">
+                    <div style="font-family: Verdana;">
+                        <center>
+                            <div id="party-srch">
+                                <label class="msgText hide" id="msgText3">No Record Found...</label>
+                                <label >Party Name 
+                        <span style="float:right"><a href="#div-partyMst" data-transition="flip" style="background-color:#1390cf;border-radius:5px;padding:2vmin" > <img src="assets/img/plus.png" alt="Add Party"></a></span>  </label>
+                                <input type="text" data-type="search" name="user" id="txt-party-pa" value="" placeholder="Party Name" data-theme="a" onchange="serchtxt_clear(this,'5');">
+                            </div>
+                            <div id="party-srch-body" style="width:90%" class="display-none">
+                                <p style="margin:0px;padding:0px" id="txt-party-pa-add"></p>
+                                <label style="display:inline">Ledger Balance:</label> <label id="lblLdgBal1" style="color:#137ab0;font-weight:bold;display:inline">00.00</label>
+                                <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-8px;width:50%">
+                                    <tr>                                        
+                                        <td>
+                                            <a href="#div-party-ldgr" data-transition="flip" onclick="ShowPartyLdgr()" class="hide" id="div-ldgrpt1"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf"> <img src="assets/img/ldg-book.png" alt="Party Ledger"></div></a>
+                                        </td>                                        
+                                    </tr>
+                                </table>
+                            </div>
+                           <div id="pt-srch">                                
+                                <label style="font-weight:bold; margin-left:5px;">Patient Name</label>
+                                <input type="text" id="pn-name" placeholder="Enter Patient Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'3');" />
+                            </div>
+                            <div id="pt-info-body" style="width:90%" class="display-none">
+                                <p style="margin-top:-5px;" id="pt_infoMoNo"></p>
+                                <p style="margin-top:-5px;" id="pt_infoAdd"></p>
+                            </div>
+                            <div id="dr-srch" >
+                                <label style="font-weight:bold; margin-left:5px;">Doctor Name</label>
+                                <input type="text" id="dr-name" placeholder="Enter Doctor Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'4');" />
+                            </div>
+                            <div id="dr-info-body" style="width:90%" class="display-none">
+                                <p style="margin-top:-5px;" id="dr_infoAdd"></p>
+                            </div>
+                            <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-8px;" id="ptdr-Btn" >
+                                <tr>
+                                    <td>
+                                        <a data-rel="back"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf"> <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                                    </td>
+
+                                    <td>
+                                        <a id="div-nxtPtDr" data-transition="flip"  data-rel="popup" href="#ptdr-btn-body"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf"> <img src="assets/img/arrow-right.png" alt="next"></div></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-role="popup" id="ptdr-btn-body" data-dismissible="false" data-theme="a" data-overlay-theme="b">
+            <a class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+
+            <table class="ui-content" style="width: 90%;">
+                <tr>
+                    <td>
+                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                            <img src="assets/img/save.png" alt="Save" onclick="SaveInvoice('0')">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                            <img src="assets/img/print.png" alt="Save&Print" onclick="SaveInvoice('1')">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf">
+                            <img src="assets/img/cancel.png" alt="Canecl" onclick="fun_cancel()">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div data-role="panel" id="div-Detail-Invoice" data-position="right" data-display="push" data-theme="a">
+            <div class="ord-header">
+                <label style="margin-left: 2.2em">Voucher Details</label>
+            </div>
+            <div id="Inv-det" class="ord-det">
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a data-icon="check" data-iconpos="notext" onclick="SaveInvoice('0')" class="footer-img">Save</a>
+            <a onclick="fun_cancel()" data-icon="action" data-iconpos="notext" class="footer-img">Exit</a>
+            <a href="#div-Detail-Invoice" data-icon="eye" data-iconpos="notext" style="float: right;" class="footer-img" onclick="SetInvoiceDtl()">Back</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="Party-Ldg" data-title="Inbox" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <h2 style="color: white;">Ledger</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+
+                <div id="party-body">
+                    <label class="msgText hide" id="msgText12">No Record Found...</label>
+                    <label>
+                        Party Name 
+                        <span style="float: right"><a href="#div-partyMst" data-transition="flip" style="background-color: #1390cf; border-radius: 5px; padding: 2vmin">
+                            <img src="assets/img/plus.png" alt="Add Party"></a></span>
+                    </label>
+                    <input type="text" id="party-srch-ldg" placeholder="Enter Party Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'1');" />
+                    <center>
+                        <div id="div-party-info-ldg" class="display-none">
+                            <p style="margin:0px;padding:0px" id="party-srch-ldg-add"></p>
+                            <label style="display:inline">Ledger Balance:</label> <label id="lblLdgBal-" style="color:#137ab0;font-weight:bold;display:inline">00.00</label>
+                        </div>
+
+
+                        <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-8px;">
+                            <tr>
+                                <td>
+                                    <a data-rel="back"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div-backparty" onclick="highlight_Control('div-backparty')"> <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                                </td>
+                                
+                                <td>
+                                    <a href="#div-party-ldgr" data-transition="flip" onclick="ShowPartyLdgr()" class="hide" id="div-ldgrpt-"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf"> <img src="assets/img/ldg-book.png" alt="Party Ledger"></div></a>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </center>
+                </div>
+                <br />
+            </div>
+        </div>
+        <!-- /popup -->
+
+    </div>
+
+    <div data-role="page" id="series_div" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 style="color: white;">Series Selection</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <div id="s-ser" class="ui-field-contain">
+                    <label for="menuSer">Sale Series:</label>
+                    <select id="menuSer" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'SALE')"></select>
+                </div>
+                <div id="w-ser" class="ui-field-contain">
+                    <label for="menuWs">Wholesale Series:</label>
+                    <select id="menuWs" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'WSAL')"></select>
+                </div>
+                <div id="o-ser" class="ui-field-contain">
+                    <label for="menuO">Sale Order Series:</label>
+                    <select id="menuO" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'ORDS')"></select>
+                </div>
+                <div id="or-ser" class="ui-field-contain">
+                    <label for="menuOr">Retail Order Series:</label>
+                    <select id="menuOr" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'ORDR')"></select>
+                </div>
+                <div id="rec-rcpt" class="ui-field-contain">
+                    <label for="menurcpt">Receipt Series:</label>
+                    <select id="menurcpt" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'MNRC')"></select>
+                </div>
+                <div id="pay-ser" class="ui-field-contain">
+                    <label for="menupay">Payment Series:</label>
+                    <select id="menupay" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'MNPY')"></select>
+                </div>
+                <div id="qttn-ser" class="ui-field-contain">
+                    <label for="menuqttn">Retail Quotation Series:</label>
+                    <select id="menuqttn" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'QTTN')"></select>
+                </div>
+                <div id="qtnw-ser" class="ui-field-contain">
+                    <label for="menuqtnw">Wholsale Quotation Series:</label>
+                    <select id="menuqtnw" data-native-menu="false" class="filterable-select" onchange="SaveSer(this,'QTNW')"></select>
+                </div>
+                <br />
+                <center>
+                    <a href="#page-con" onclick="SaveSer(this,'All')" style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;text-decoration:none">OK</a>
+                    
+                    <a  onclick="GetSereisList()" style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;text-decoration:none">Refresh</a>
+                </center>
+                <br />
+            </div>
+        </div>
+        <!-- /popup -->
+
+    </div>
+
+    <div data-role="page" id="Vrdetail" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img id="Img1" src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h1" style="color: white;">Voucher Detail</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <center>
+            <div  id="vr-detail1" class="body-with-shadow">
+
+                <div>
+                    <center> <label style="color:#137ab0;font-weight:bold;" id="p_VrNO"> </label></center>
+
+                    <table style="width: 90%">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label id="L_NetAmt" style="float: right;  background-color: #137ab0; color: white; padding: 5px; font-weight: lighter;"></label></td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <p id="p1" style="float: left; font-weight: bold; margin-top: -1px; width: 90%; margin-top: -40px"></p>
+                            </td>
+                        </tr>
+                        <tr id="img">
+                            <td colspan="2">
+                                <center>
+                                    <img  id="Img16" src="assets/img/No_image.png" alt="NoImage" onclick="FullSize()" style="width:250px;height:130px"/>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="div_itemList">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+                <br />
+                <center>
+                    <a  style=" background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;display:inline-block;margin-top:10px" onclick="NewBill()">New Bill</a>
+                    <a  style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;display:inline-block;text-decoration:none;margin-top:10px" href="#page-con">Back To Menu</a>
+                </center>
+                <br />
+            </div>
+                <div id="vr-detail">
+
+                </div>
+            </center>
+        </div>
+        <!-- /popup -->
+
+    </div>
+
+    <div data-role="page" id="ImageSelect" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img id="Img5" src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div class="display-none" id="Div3">
+                <a href="#Item-cart" data-transition="flip">
+                    <img src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" class="ui-btn-right cart-cnt-lbl" style="display: none; text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold;"></label>
+                </a>
+            </div>
+            <h2 id="h5" style="color: white;">Order</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>        
+<div class="full_image">
+    <img id="sel_image" src="assets/img/No_image.png" alt="NoImage" onclick="FullSize()"/>
+    <a href="#" class="full_close" style="padding:2px;" onclick="Close_img()">X</a>
+</div>
+                
+                    <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-7vw; margin-top:-1px;">
+                            <tr>
+                                <td>
+                                    <a data-rel="back"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div5" onclick="highlight_Control('div5')"> <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                                </td>  
+                                <td>
+                                    <a onclick="capturePhotoEdit()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div1" onclick="highlight_Control('div1')"> <img src="assets/img/camera.png" alt="prev"></div></a>
+                                </td>                               
+                                <td>
+                                    <a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf" id="div4" onclick="highlight_Control('div4')"> <img src="assets/img/images.png" alt="Party Ledger"></div></a>
+                                </td>                               
+                                <td>
+                                    <a data-transition="flip" id="div3" onclick="highlight_Control('div3')"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf" onclick="fun_nextItem()"> <img id="Img7" src="assets/img/arrow-right.png" alt="next"></div></a>
+                                </td>
+                            </tr>
+                       </table> 
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div data-role="page" id="appSetting-div" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <h2 id="h2" style="color: white;">App Setting</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow" style="background-color: whitesmoke">
+                <center>
+                    <label id="appset-user" style="color:#137ab0"></label>
+                    <table class="app-set-tbl">
+                         <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center> <label>App Information</label></center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Name</p></td>
+                                        <td><p>:TiaERP@App</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Version</p></td>
+                                        <td><p id="appVersion"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Release</p></td>
+                                        <td><p id="appRelease"></p></td>
+                                    </tr>
+                                    <!--<tr>
+                                        <td><p>Size</p></td>
+                                        <td><p>:1.55MB</p></td>
+                                    </tr>-->
+                                     <tr>
+                                        <td><p>App Store Version</p></td>
+                                        <td><p id="appPlayVersion"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Developed By</p></td>
+                                        <td><p>:Yashaswi Narkhedkar</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Powered By</p></td>
+                                        <td><p>:Goyal Bros & Company.</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Email Id</p></td>
+                                        <td><p>:goyalbro@yahoo.com</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Contact No</p></td>
+                                        <td><p>:(0712)6604641-47 </p></td>
+                                    </tr>
+                                </table>
+                               
+                                
+                                
+                                
+                                
+                                <hr />
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center> <label>App User</label></center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Reg. Code</p></td>
+                                        <td><p id="p-code"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Name</p></td>
+                                        <td><p id="p-name"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Contact No</p></td>
+                                        <td><p id="p-no"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Email Id</p></td>
+                                        <td><p id="p-email"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Address</p></td>
+                                        <td><p id="p-add"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>NodeId</p></td>
+                                        <td><p id="p-node"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Service Version</p></td>
+                                        <td><p id="ServiceVersion"></p></td>
+                                    </tr>
+                                </table>
+                                <hr />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center> <label>App Connectivity</label></center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  colspan="2"><p>Static Ip</p></td>
+                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" id="p-static"  />
+                                        </td>
+                                        <td><input type="button" value="SET" onclick="SetStaticIP()" class="tbl-btn-setting"/></td>
+                                    </tr>
+                                           
+                                    
+                                    <tr>
+                                        <td colspan="2"> <p id="p-local"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><p id="p-global"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><p>TiaERP@Service Active Path:</p><p id="p-activePath" style="float:right; text-decoration:underline;color:#1390cf"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td ><p>Set As Default Active Path : </p></td><td><input type="checkbox" id="def-path" onclick="SetDefaultPath()"></td>
+                                    </tr>
+                                    <tr>
+                                        <td ><p>Service compatibility alert : </p></td><td><input type="checkbox" id="ser-alert" onclick="SetServicealert()" checked="checked"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center><input type="button" onclick="SetConnectionGlobally()" value="Globally" class="tbl-btn-setting"/><input type="button" onclick="    SetConnectionLocally()" value="locally" class="tbl-btn-setting"/></center></td>
+                                    </tr>
+                                    
+                                   
+                                </table>
+                                <hr />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>    
+                                <center>                         
+                                <input type="button" value="Reset App" class="tbl-btn-setting" onclick="Reset()"/>
+                                    </center>
+                                <hr />
+                            </td>
+                        </tr>
+                    </table>
+                    </center>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+    <!-- change vivek-->
+    <div data-role="page" id="appchange-pass" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h11" style="color: white; padding-left: 1.8em">Change Account </h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>
+                    <table class="app-set-tbl">
+                        
+                            <tr>
+                            <td colspan ="2">
+                               <center> <label > Change Password</label> </center>
+                            </td>
+                                </tr>
+                            <tr>
+                            <td><p>User Name</p></td>
+                                <td><input type="text"  data-theme="a" id="txtuser" readonly="True"></td>
+                                </tr>
+                            <tr>
+                            <td><p>Password</p></td>
+                                <td><input type="text" placeholder="Password" data-theme="a" id="txtpass" ></td>
+                                </tr>
+                            <tr>
+                            
+                                <td align="center" colspan ="2"><input type="button" onclick="update_user()" value="Update" class="theme-color-btn ui-button ui-widget ui-state-default ui-corner-all" style="background: #1390cf;padding:8px 35px 8px 35px; color:white;border:none;cursor:pointer;"  role="button" aria-disabled="false"></td>
+                              
+
+                                </tr>
+                            <tr>
+                                <td align="center" colspan ="2"><p id="up_msg" class="msgContent"> </p>  </td>
+                                </tr>
+                        
+                    </table>
+                </center>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+
+    <div data-role="page" id="MISRPT" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h3" style="color: white;">MIS Report</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>
+                                          
+                             <table style="width:90%">
+                                 <tr>
+                                     <td style="width:70%"><input type="date" id="dtMIS" /></td>
+                                     <td style="width:30%"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;" onclick="GetMISData()"> <img src="assets/img/refresh.png" alt="Parameter"></div></td>
+                                 </tr>
+                             </table>
+                    <div id="wrapper" class="wrapper" style="margin-top:19vmin">
+	                    <div id="scroller" class="scroller">   
+                    <table class='CSSTableGenerator' >
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="MISLbl">Day Cash</label>
+                            </td>
+                            <td>
+                                <label class="MISLbl">Day Total</label>
+                            </td>
+                            <td>
+                                <label class="MISLbl">Month Total</label>
+                            </td>
+                        </tr>
+                        <tr>
+                           <td >
+                               <label class="MISLbl">Sale</label>
+                           </td>
+                            <td>
+                               <label id="saledc" class="MISLblAmt MISLbl" >0.00</label>
+                           </td>
+                            <td>
+                               <label id="saledt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="salemt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr>
+                           <td>
+                               <label class="MISLbl">DM-OW</label>
+                           </td>
+                            <td>
+                               <label id="dmodc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="dmodt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="dmomt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr>
+                           <td>
+                               <label class="MISLbl">Sale Ret</label>
+                           </td>
+                            <td>
+                               <label ="salerdc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="salerdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="salermt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                        <tr class="MISRow">
+                           <td>
+                               <label class="MISLbl">Sale Tot</label>
+                           </td>
+                            <td>
+                               <label id="Tsaledc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="Tsaledt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="Tsalemt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr>
+                           <td>
+                               <label class="MISLbl">Purchase</label>
+                           </td>
+                            <td>
+                               <label id="puccdc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="purcdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="purcmt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr>
+                           <td>
+                               <label class="MISLbl">DM-IN</label>
+                           </td>
+                            <td>
+                               <label id="dmidc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="dmidt" class="MISLblAmt MISLbl" >0.00</label>
+                           </td>
+                            <td>
+                               <label id="dmimt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                               <label class="MISLbl">Purc Ret</label>
+                           </td>
+                           <td>
+                               <label id="purcrdc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="purcrdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="purcrmt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr class="MISRow">
+                           <td>
+                               <label class="MISLbl">Purc Tot</label>
+                           </td>
+                             <td>
+                               <label id="Tpurcdc" class="MISLblAmt MISLbl"> 0.00</label>
+                           </td>
+                            <td>
+                               <label id="Tpurcdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="Tpurcmt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr>
+                           <td>
+                               <label class="MISLbl">Receipt</label>
+                           </td>
+                            <td>
+                               <label id="recdc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="recdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="recmt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                               <label class="MISLbl">Payment</label>
+                           </td>
+                            <td>
+                               <label id="paydc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="paydt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="paymt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr  class="MISRow">
+                           <td>
+                               <label class="MISLbl">FinalAmt</label>
+                           </td>
+                             <td>
+                               <label id="Fdc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="Fdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="Fmt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                         <tr  class="MISRow">
+                           <td>
+                               <label class="MISLbl">Quotation</label>
+                           </td>
+                             <td>
+                               <label id="qtdc" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="qtdt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                            <td>
+                               <label id="qtmt" class="MISLblAmt MISLbl">0.00</label>
+                           </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <center><label id="misstk">0.00</label></center></td>
+                        </tr>
+                    </table>
+                        </div>
+                   </div>
+                </center>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="saleRpt" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h4" style="color: white;">Sale Report</h2>
+        </div>
+        <div role="main" class="ui-content">
+
+            <div data-role="popup" id="salerpt_para" data-theme="a">
+                <div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" style="margin: 0; width: 250px;">
+                    <div data-role="collapsible" data-inset="false">
+                        <h2>From Date</h2>
+                        <ul data-role="listview">
+                            <li>
+                                <input type="date" id="frmdt_saleR" />
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /collapsible -->
+                    <div data-role="collapsible" data-inset="false">
+                        <h2>To Date</h2>
+                        <ul data-role="listview">
+                            <li>
+                                <input type="date" id="todt_saleR" />
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /collapsible -->
+
+                    <div data-role="collapsible" data-inset="false">
+                        <h2>VrType</h2>
+                        <ul data-role="listview">
+                            <li>
+                                <select data-theme="a" id="flip-chk-vrtype" data-native-menu="false" class="filterable-select">
+                                    <option value="ALL" selected="selected">All</option>
+                                    <option value="C">Cash</option>
+                                    <option value="R">Credit</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /collapsible -->
+                    <div data-role="collapsible" data-inset="false">
+                        <h2>Party Name</h2>
+                        <ul data-role="listview">
+                            <li>
+                                <input type="text" placeholder="Party Name" id="saleRptPName" data-type="search" onchange="serchtxt_clear(this,'6');" />
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /collapsible -->
+                    <div data-role="collapsible" data-inset="false">
+                        <h2>Patient Name</h2>
+                        <ul data-role="listview">
+                            <li>
+                                <input type="text" placeholder="Patient Name" id="saleRptPtName" data-type="search" onchange="serchtxt_clear(this,'7');" />
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /collapsible -->
+                </div>
+                <!-- /collapsible set -->
+            </div>
+
+            <a onclick="SaleReport()" id="a_salerptRefresh">
+                <div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf; width: 7%; position: absolute; right: 5px; top: 55px;">
+                    <img src="assets/img/refresh.png" alt="Refresh">
+                </div>
+            </a>
+            <a href="#salerpt_para" data-rel="popup" data-transition="slidedown">
+                <div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf; width: 7%; position: absolute; left: 5px; top: 55px;">
+                    <img src="assets/img/paragraph-center.png" alt="Parameter">
+                </div>
+            </a>
+            <center>  <label class="msgText hide" id="msgtxtsalerpt">No Record Found...</label></center>
+
+            <center>   
+                 <div style="overflow:auto;width:100%;max-height:70%;">
+                    <div id="wrapper1" class="wrapper" style="margin-top:42px;">
+	                    <div id="Div8" class="scroller">
+                        <div id="saleRptBody">
+                                    
+                         </div>
+                        </div>
+                        </div>
+                    </div>                    
+               
+                <br />
+
+              </center>
+
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="altITem" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h6" style="color: white;">Alternate Item List</h2>
+        </div>
+
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>
+                <label id="gnameS"  style="color:#137ab0;margin-top:10px;margin-bottom:-15px;"></label>
+            </center>
+                <div role="main" class="ui-content" style="overflow-x: visible; width: 90%">
+                    <ul data-role="listview" data-inset="true" id="Substitude_Grid" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="divOrderParty" data-title="Inbox" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h8" style="color: white;">Order</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+
+                <div id="Div9">
+                    <label id="Label3" class="lbl-right-top" style="margin-top: -20px; margin-right: -7px;">Sales Rep</label>
+                    <label class="msgText hide" id="Label4">No Record Found...</label>
+                    <label>Area Name</label>
+                    <input type="text" id="txtOrderArea" placeholder="Enter Area Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'10');" /><!---->
+
+                    <label>
+                        Party Name 
+                        <span style="float: right"><a href="#div-partyMst" data-transition="flip" style="background-color: #1390cf; border-radius: 5px; padding: 2vmin">
+                            <img src="assets/img/plus.png" alt="Add Party"></a></span>
+                    </label>
+                    <input type="text" id="txtOrderParty" placeholder="Enter Party Name..." data-theme="a" onchange="serchtxt_clear(this,'8');" data-type="search" />
+                    <center>
+                        <div id="div10" class="display-none">
+                            <p style="margin:0px;padding:0px;" id="txtOrderParty-add"></p>
+                            <label style="display:inline">Ledger Balance:</label> <label id="Label5" style="color:#137ab0;font-weight:bold;display:inline">00.00</label>
+                        </div>
+                        <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-7vw;">
+                            <tr>
+                                <td>
+                                    <a data-rel="back"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div11" onclick="highlight_Control('div-backparty')"> <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                                </td>                               
+                                <td>
+                                    <a href="#div-party-ldgr" data-transition="flip" onclick="ShowPartyLdgr()"  class="hide" id="A2"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf"> <img src="assets/img/ldg-book.png" alt="Party Ledger"></div></a>
+                                </td>
+                                <td class="hide" id="div-img-a">
+                                    <a href="#ImageSelect" ><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div2" onclick="highlight_Control('div2')"> <img src="assets/img/images.png" alt="Browse Image"></div></a>
+                                </td>
+                                <td>
+                                    <a href="#OrderItemSearch" data-transition="flip" class="hide" id="A3" onclick="fun_showCart()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf" > <img id="Img9" src="assets/img/arrow-right.png" alt="next"></div></a>
+                                </td>
+                            </tr>
+                       </table>
+                        
+                    </center>
+                </div>
+                <br />
+            </div>
+        </div>
+        <!-- /popup -->
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a onclick="fun_cancel()" data-icon="action" data-iconpos="notext" class="footer-img">Exit</a>
+            <a id="A4" data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img " onclick="fun_nextItem()">next</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="OrderItemSearch" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <div>
+                <a href="#Item-cart" data-transition="slide">
+                    <img src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" id="cart-cnt-lbl" class="ui-btn-right cart-cnt-lbl" style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold;"></label>
+                </a>
+            </div>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <h2 id="h7" style="color: white;">Order</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow" id="container">
+                <br />
+                <div id="Div7">
+                    <label class="msgText hide" id="lblOrdItm">No Record Found...</label>
+                    <center>
+                    <label id="itm-ordPname"></label>
+                    <p style="margin:0px;padding:0px;" id="itm-ordadd"></p>
+                    </center>
+                    <label>Item Name</label>
+                    <input type="text" id="txtOrdItem" placeholder="Enter Item Name..." data-theme="a" data-type="search" />
+                    <a id="a1" href="#Item-Info-Search-Body" data-transition="flip" style="display: none"></a>
+                    <br />
+                    <table class="ui-content tbl-btn-nxt-rev">
+                        <tr>
+                            <td>
+                                <a href="#divOrderParty" data-transition="flip">
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div6" onclick="highlight_Control('div-backparty')">
+                                        <img src="assets/img/arrow-left.png" alt="prev">
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#ImageSelect" data-transition="flip">
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div12" onclick="highlight_Control('div2')">
+                                        <img src="assets/img/images.png" alt="Browse Image">
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a onclick="fun_showCart()" data-transition="slide">
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf" onclick="fun_nextItem()">
+                                        <img id="Img2" src="assets/img/arrow-right.png" alt="next">
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="Item-cart" class="jqm-demos">
+                    <div data-transition="slide" id="leftclicker" data-direction="reverse">
+
+                        <!-- /header -->
+                        <div role="main" class="ui-content">
+                            <div class="btn-div" style="margin-left: 25vw; width: 40vw;" id="Empty-basket">
+                                <center>
+                    <table>
+                        <tr>
+                            <td id="td-ord" onclick="fun_nextItem()">
+                                <a><img src="assets/img/cart.png"></a>
+                                <center>
+                                    <p style="font-weight:bold;">Your Basket Is Empty. Please Add Item</p>
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                            </div>
+                            <div id="Item-grid-table">
+                                <center>
+                    <p id="itm-cnt" style="margin-top:-8px;margin-bottom:0px;"></p>
+                    <table style="width:90%" id="cart-tbl-amt">
+                        <tr>
+                            <td><label>GrossAmt</label></td>
+                            <td style="float:right"><label id="cart-grs" style="color:#1390cf;margin-right:1vmin"></label></td>
+                            <td><label>NetAmt</label></td>
+                            <td style="float:right"><label id="cart-net" style="color:#1390cf"></label></td>
+                        </tr>
+                    </table>
+                    <label id="cart-total-amt" style="color:#1390cf;margin-top:5px;"></label>
+                    <img alt="Prescription" id="order_pre" style="display:none;width:150px;height:150px;" src="icon.png"/>
+                </center>
+                                <div data-theme="b" class="my-page" style="margin-top: -32px;">
+
+                                    <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_Ord">
+                                        <ul data-role="listview" data-inset="true" id="Itm_Grid" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                                    </div>
+                                    <!--<div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_Wsal">
+                        <ul data-role="listview" data-inset="true" id="Itm_GridWSale" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                    </div>
+                    <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_Sale">
+                        <ul data-role="listview" data-inset="true" id="Itm_GridSale" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                    </div>
+                    <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_QTTN">
+                        <ul data-role="listview" data-inset="true" id="Itm_GridQTTN" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                    </div>
+                    <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_QTNW">
+                        <ul data-role="listview" data-inset="true" id="Itm_GridQTNW" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                    </div>-->
+                                    <table class="ui-content" style="margin-top: -30px; margin-left: 10px; padding: 0; width: 90%;">
+                                        <tr>
+                                            <td>
+                                                <a data-transition="slide">
+                                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf" onclick="fun_nextItem()">
+                                                        <img id="Add-item" src="assets/img/add.png" alt="Add Item">
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <!--<td id="td-invioce-nxt">
+                                <a ><div id="div-img-save" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" ><img id="save" src="assets/img/arrow-right.png" alt="Save"></div></a>
+                            </td>-->
+                                            <td id="td-order-nxt">
+
+                                                <a id="id_aPTDR-body" href="#PTDR-Info-Search" data-transition="flip" data-position-to="window" style="display: none"></a>
+                                                <a id="id_ainvoice-item-btn2-body" href="#invoice-item-btn2-body" data-rel="popup" data-transition="flip" data-position-to="window" style="display: none"></a>
+                                                <a id="A5" href="#DivordType" data-rel="popup" data-transition="flip" data-position-to="window" style="display: none"></a>
+                                                <a>
+                                                    <div onclick="nxt_itemCart()" class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf">
+                                                        <img src="assets/img/arrow-right.png" alt="nxt">
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a>
+                                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" onclick="fun_cancel()">
+                                                        <img id="Cancel-tmgrid" src="assets/img/cancel1.png" alt="Canecl">
+                                                    </div>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                    <button style="display: none;" class="show-page-loading-msg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Saving Data..." data-inline="true">B</button>
+                                    <button style="display: none;" class="hide-page-loading-msg" data-inline="true" data-icon="delete">Hide</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /content -->
+                        <div id="confirm" class="ui-content" data-role="popup" data-theme="a">
+                            <p id="question">Are you sure you want to delete this item?</p>
+                            <div class="ui-grid-a">
+                                <div class="ui-block-a">
+                                    <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Yes</a>
+                                </div>
+                                <div class="ui-block-b">
+                                    <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /popup -->
+                        <div data-role="popup" id="DivordType" data-dismissible="false" data-theme="a" data-overlay-theme="b">
+                            <a id="close_DivordType" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+                            <div class="ui-field-contain" style="margin: 15px; width: 257px;">
+                                <label for="Select1">Order Type:</label>
+                                <select id="Select1" data-native-menu="false" class="filterable-select" onchange="SaveOrderType(this)">
+                                </select>
+                                <div id="divOrderPTDR">
+                                    <table>
+                                        <tr>
+                                            <td>Patient:
+                                            </td>
+                                            <td>
+                                                <input type="text" id="ordPatient" placeholder="Patient Name..." data-theme="a" data-type="search" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Doctor:
+                                            </td>
+                                            <td>
+                                                <input type="text" id="ordDoctor" placeholder="Doctor Name..." data-theme="a" data-type="search" />
+                                                <div id="Div13" style="width: 90%" class="display-none">
+                                                    <label style="margin-top: -5px;" id="Label6"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br />
+                                <center>
+                    <a onclick="show_SaveWin()" style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;text-decoration:none">OK</a>
+                </center>
+                            </div>
+                        </div>
+                        <div data-role="popup" id="invoice-item-btn2-body" data-dismissible="false" data-theme="a" data-overlay-theme="b">
+                            <a class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+
+                            <table class="ui-content" style="width: 90%;">
+                                <tr>
+                                    <td onclick="SaveOrderWsale('0')">
+                                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                                            <img id="savef" src="assets/img/save.png" alt="Save">
+                                        </div>
+                                    </td>
+                                    <td onclick="SaveOrderWsale('1')">
+                                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                                            <img id="print" src="assets/img/print.png" alt="Save&Print">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" onclick="fun_cancel()">
+                                            <img id="Cancelf" src="assets/img/cancel.png" alt="Canecl">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+                        <div data-role="panel" id="div-Detail-Ord" data-position="right" data-display="push" data-theme="a">
+                            <div class="ord-header">
+                                <label style="margin-left: 2.2em">Voucher Details</label>
+                            </div>
+                            <div class="ord-det">
+                                <p>Sale Rep</p>
+                                <a>
+                                    <label id="d-lbl-salerep"></label>
+                                </a>
+                                <p>Party Name</p>
+                                <a onclick="show_PartyWin()" data-transition="flip">
+                                    <label id="d-lbl-party"></label>
+                                </a>
+                                <p>Cart Details</p>
+                                <a data-rel="close">
+                                    <label id="d-lbl-cnt" class="cart-cnt-lbl"></label>
+                                </a>
+                                <div id="ImgDiv">
+                                    <div class="full_image">
+                                        <img id="Img15" alt="NoImage" onclick="FullSize()" style="width: 150px; height: 100px" />
+                                        <a href="#" class="full_close" style="font-size: small" onclick="Close_img()">X</a>
+                                    </div>
+                                    <a href="#ImageSelect" data-transition="flip">
+                                        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf; padding: 5px; width: 40px; float: right; display: inline; margin-top: 0px;" id="div14">
+                                            <img src="assets/img/images.png" alt="Browse Image">
+                                        </div>
+                                    </a>
+                                </div>
+                                <p>Bill Amount</p>
+                                <span>
+                                    <img src="assets/img/rupee.png" alt="Rs" class="rupes" />
+                                </span><span class="amt-color" id="d-lbl-amt"></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div data-role="footer" data-position="fixed" class="my-footer">
+                    <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+                    <a onclick="homePage()" data-transition="flip" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+                    <a data-icon="check" data-iconpos="notext" onclick="Save()" class="footer-img">Save</a>
+                    <a data-icon="action" data-iconpos="notext" class="footer-img" onclick="fun_cancel()">exit</a>
+                    <!--<a href="#invoice-item-btn2-body" data-rel="popup" data-transition="flip" data-position-to="window" data-icon="carat-r" data-iconpos="notext" class="footer-img">next</a>-->
+                    <!--<a href="#div-Detail-Ord" data-icon="eye" data-iconpos="notext" style="float: right;" class="footer-img" onclick="SetInvoiceDtl()">Back</a>-->
+                    <a onclick="BackButton()" data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img">next</a>
+                </div>
+            </div>
+            <!--//change by vivek 10-03-17 //-->
+        </div>
+
+    </div>
+    <!-- ///cart new//-->
+    <div id="call_nest" onload="nxt_itemCart()">
+    </div>
+
+    <div data-role="page" id="Receipt-part1" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <h2 id="rptPy" style="color: white;">Receipts</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>
+                      <label class="msgText hide" id="lblmsgRec">No Record Found...</label>
+                      <label>Party Name</label>
+                      <input type="text" id="rcptPCode" placeholder="Enter Party Name..." data-theme="a" data-type="search" onchange="serchtxt_clear(this,'9');" />
+                      <p id="rcptPartyAdd" style="padding:0px"></p>
+                      <div id="div7" class="hide">
+                      <label style="display:inline">Ledger Balance:</label> <label id="rcptPCodeldgBall" style="color:#137ab0;font-weight:bold;display:inline;margin-top:-18px;">00.00</label><a href="#div-party-ldgr" data-transition="flip" onclick="ShowPartyLdgr()" ><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:30%;"> <img src="assets/img/ldg-book.png" alt="Party Ledger"></div></a>                              
+
+                           </div>
+                      <label >Document</label>
+                    <select id="selDoc" class="filterable-select" onchange="GetAccCode()">
+                        <option value="H">Cash</option>
+                        <option value="B">Cheque</option>
+                    </select>
+                    <p id="pdocRec"></p>
+                       
+                    <label for="selacCode">A/C Code</label>
+                    <select id="selacCode" data-native-menu="false" class="filterable-select" style="white-space:initial;">
+
+                    </select>                      
+                       
+                       <label>Amount</label>
+                       <input id="Rcpttxtamt" type="number"  /><!--onblur=" GetPartyReceiptData('1');-->
+                      
+                    <div id="chkdtl">
+                       <label>Doc Number</label>
+                       <input id="RcptdocNumber" type="number"  />
+
+                       <label>Bank Name</label>
+                       <input id="RcptBank" type="text"  />
+
+                       <label>Branch Name</label>
+                       <input id="RcptBranch" type="text"  />
+                    </div>
+                       <label>Narration1</label>
+                       <textarea id="narr1"></textarea>
+                      
+                       <label>Narration2</label>
+                       <textarea id="narr2"></textarea>
+                        <table class="ui-content tbl-btn-nxt-rev" >
+                            <tr>
+                                <td>
+                                    <a data-transition="flip" href="#page-con"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini" style="background: #1390cf" id="div15" > <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                                </td>
+                               
+                                <td>
+                                    <a data-transition="flip" href="#Receipt-part2"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf" > <img id="Img3" src="assets/img/arrow-right.png" alt="next"></div></a>
+                                </td>
+                            </tr>
+                       </table>
+                   </center>
+                <br />
+            </div>
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a onclick="fun_cancel()" data-icon="action" data-iconpos="notext" class="footer-img">Exit</a>
+            <a data-transition="flip" href="#Receipt-part2" data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img">next</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="Receipt-part2" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <h2 id="rptPy1" style="color: white;">Receipts</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <center> <table style="margin-top:-5px;width:90%">
+                <tr>
+                    <td><label>Amount</label></td>
+                    <td style="width:150px;"><input id="Rcpttxtamt1" type="number"  /></td><!--onblur="GetPartyReceiptData('2');"-->
+                    <td>
+                        <label style="padding:0px;width:40px" id="lblchlselAllRcp">
+                            <input type="checkbox" id="chlselAllRcp" onclick="SelectAllRcptVr()">
+                        </label>
+                    </td>
+                </tr>
+            </table>               
+            </center>
+            <label id="lblNoRcptAmt" class="exit-lbl" style="display: none">No Amount Available..</label>
+            <table class='rcpttbl' style="margin-top: -5px">
+                <tr>
+                    <td style="width: 22%; text-align: center">Vr Amt</td>
+                    <td style="width: 33%; text-align: center">Al Amt</td>
+                    <td style="width: 43%; text-align: center">Unal Amt</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right">
+                        <label id="VrAmt">0.00</label></td>
+                    <td style="text-align: right">
+                        <label id="AlAmt">0.00</label></td>
+                    <td style="text-align: right">
+                        <label id="UnlAmt">0.00</label></td>
+                </tr>
+
+                <tr>
+                    <td style="width: 22%; text-align: center">Bal Amt</td>
+                    <td style="width: 33%; text-align: center">Adj Amt</td>
+                    <td style="width: 43%; text-align: center">Remaining</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right">
+                        <label id="BalAmt">0.00</label></td>
+                    <td style="text-align: right">
+                        <label id="AdjAmt">0.00</label></td>
+                    <td style="text-align: right">
+                        <label id="RemAmt">0.00</label></td>
+                </tr>
+            </table>
+            <hr />
+            <div>
+                <div id="wrapper2" class="wrapper" style="margin-top: 55vw;">
+                    <div id="Div17" class="scroller">
+                        <center>
+                       
+                <ul data-role="listview" data-inset="true" id="ulpartyRcpt" class="touch" data-icon="false" data-split-icon="delete" style="width:90%">
+                
+                    </ul>
+                    </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a onclick="homePage()" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a href="#divsavebtn" data-rel="popup" data-transition="flip" data-position-to="window" data-icon="check" data-iconpos="notext" class="footer-img">Save</a>
+            <a onclick="fun_cancel()" data-icon="action" data-iconpos="notext" class="footer-img">Exit</a>
+            <a href="#divsavebtn" data-rel="popup" data-transition="flip" data-position-to="window" data-icon="carat-r" data-iconpos="notext" style="float: right;" class="footer-img">next</a>
+            <div data-role="popup" id="divsavebtn" data-dismissible="false" data-theme="a" data-overlay-theme="b">
+                <a class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+
+                <table class="ui-content" style="width: 90%;">
+                    <tr>
+                        <td onclick="SaveRcpt('0')">
+                            <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                                <img id="Img4" src="assets/img/save.png" alt="Save">
+                            </div>
+                        </td>
+                        <td onclick="SaveRcpt('1')">
+                            <div class="ui-btn ui-input-btn ui-corner-all ui-shadow " style="background: #1390cf">
+                                <img id="Img6" src="assets/img/print.png" alt="Save&Print">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="background: #1390cf" onclick="fun_cancel()">
+                                <img id="Img10" src="assets/img/cancel.png" alt="Canecl">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div data-role="page" id="div-partyMst" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h9" style="color: white;">Party Master</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>
+                    <table >
+                        <tr>                            
+                            <td colspan="2"> <div class="ui-field-contain" style="margin:0px;">
+                            <select name="ptype" id="ptype">
+                             <option value="C">Customer</option>
+                             <option value="S">Supplier</option>
+                            </select>
+                             </div>  </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Name </label>
+                            </td>
+                            <td><input type="text" id="Ntxtparty" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Area </label>
+                            </td>
+                            <td><input type="text" id="NtxtArea"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Mobile No  </label>
+                            </td>
+                            <td><input type="number" id="NtxtMob" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Address  </label>
+                            </td>
+                            <td><textarea id="NtxtAdd" style="resize: none;"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="div16" style="background-color:#1390cf;text-decoration:none;color:white" class="ui-btn ui-input-btn ui-corner-all ui-shadow " onclick="SaveAcpmst()">Save<input type="button" value="Save"  style="height:40px" ></div>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="div-flag" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <img src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h10" style="color: white;">Flags</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+                <center>
+                    <div id="tblflag">
+                        
+                    </div>
+                </center>
+                <br />
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p style="font-size: 12px;">Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

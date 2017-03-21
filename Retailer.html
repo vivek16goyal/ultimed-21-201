@@ -1,0 +1,1378 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+    <title>UltiMed</title>
+    <!--<link rel=" stylesheet" href="assets/css/jqm-demos.css">-->
+    <!--This CSS file use fror 00002_ shree medical app-->
+    <link rel=" stylesheet" href="assets/css/App.css">
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.5.min.css">
+    <link rel=" stylesheet" href="assets/css/animate.css">
+    <link rel=" stylesheet" href="assets/css/TableCSSCode.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.js"></script>
+    
+    <!--SMS-->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <!--for autocomplete-->
+    <script type="text/javascript" src="js/jquery-ui-1.10.3.js"></script>
+    <script src="assets/js/iscroll-zoom.js"></script>
+    <script type="text/javascript" src="PushNotification.js"></script>
+    <script src="assets/js/push_notification.js"></script>
+    <script src="assets/js/index1.js"></script>
+
+    <!-- For slider -->
+    <link rel="stylesheet" href="assets/FlexSlider/flexslider.css">
+    <script defer src="assets/FlexSlider/modernizr.js"></script>
+    <script defer src="assets/FlexSlider/jquery.flexslider.js"></script>
+
+    <!--<script type="text/javascript" src="http://beneposto.pl/jqueryrotate/js/jQueryRotateCompressed.js"></script>-->
+
+    <script type="text/javascript">
+
+        //var angle = 0;
+        //function RotateLeft() {
+        //    angle -= 90;
+        //    $("#sel_image").rotate(angle);
+        //}
+
+        //function RotateRight() {
+        //    angle += 90;
+        //    $("#sel_image").rotate(angle);
+        //}
+        $(function () {
+            //SyntaxHighlighter.all();
+        });
+        $(window).load(function () {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                start: function (slider) {
+                    $('body').removeClass('loading');
+                }
+            });
+
+        });
+    </script>
+
+    <!-- End slider -->
+
+    <script>
+
+        function CheckEmail(e) {
+            if (e.value != "") {
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.value)) {
+                    return (true)
+                }
+                alert("You have entered an invalid email address!");
+                e.focus();
+                return (false)
+            }
+        }
+    </script>
+    <style>
+        progress {
+            width: 90%;
+            height: 14px;
+            margin: 10px auto 10px 10px;
+            display: block;
+            /* Important Thing */
+            -webkit-appearance: none;
+            border: none;
+            
+        }
+
+            progress::-webkit-progress-bar {
+                background: #808080;
+                border-radius: 50px;
+                padding: 2px;
+                box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
+            }
+
+            progress::-webkit-progress-value {
+                border-radius: 50px;
+                box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+                background: -webkit-linear-gradient(45deg, transparent, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(top, green, green), -webkit-linear-gradient(left, red, red);
+                background-size: 25px 14px, 100% 100%, 100% 100%;
+                -webkit-animation: move 5s linear 0 infinite;
+            }
+
+
+        @-webkit-keyframes move {
+            0% {
+                background-position: 0px 0px, 0 0, 0 0;
+            }
+
+            100% {
+                background-position: -100px 0px, 0 0, 0 0;
+            }
+        }
+
+        .parentDisable {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #000;
+            opacity: 0.4;
+            z-index: 998;
+            height: 100%;
+            width: 100%;
+        }
+
+        #wrapper {
+            position: absolute;
+            z-index: 1;
+            top: 115px;
+            bottom: 50px;
+            left: 10px;
+            right: 10px;
+            overflow: hidden;
+        }
+
+        #scroller {
+            position: absolute;
+            z-index: 1;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            width: 100%;
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            -o-text-size-adjust: none;
+        }
+
+        .full_image {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+            .full_image img {
+                width: 250px;
+                height: 200px;
+            }
+
+            .full_image .full_close {
+                background-color: #1390cf;
+                top: 10px;
+                cursor: pointer;
+                height: 29px;
+                opacity: 1;
+                position: absolute;
+                width: 29px;
+                z-index: 999;
+                right: 10px;
+                color: white;
+                text-decoration: none;
+                text-align: center;
+                line-height: 28px;
+            }
+            /*.full_image .full_left {
+                cursor: pointer;
+                top:190px;
+                height: 29px;
+                opacity: 1;
+                position: absolute;
+                width: 29px;
+                z-index: 999;
+                left: 10px;
+                color: white;
+                text-decoration: none;
+                text-align: center;
+                line-height: 28px;
+            }
+            .full_image .full_right {
+                cursor: pointer;
+                top:190px;
+                height: 29px;
+                opacity: 1;
+                position: absolute;
+                width: 29px;
+                z-index: 999;
+                right: 10px;
+                color: white;
+                text-decoration: none;
+                text-align: center;
+                line-height: 28px;
+            }*/
+    </style>
+
+</head>
+<body onload="onDeviceReady()" id="mainBd" class="theme-color" style="overflow:scroll">
+
+    <div id="page-con" data-role="page" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+
+            <a id="a_div-clientCode" data-rel="popup" data-position-to="window" href="#div-clientCode" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-user ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white;">Login</a>
+            <img id="imgcheck" src="assets/img/yellow.gif" alt="Checking Status" class="ui-btn-right alert-img">
+            <img id="on" src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg" style="display: none">
+            <h2 id="heading" class="GenralizedApHeading"></h2>
+            <center>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;margin-top:10px;border-radius:20px;" alt="jQuery Mobile" >
+                </center>
+
+            <a href="#outside" id="a4" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white; display: none">Menu</a>
+            <a href="#profile" onclick="GetActiveSupplierList()" id="a4_" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-user ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white; display: none">Profile</a>
+        </div>
+        <div role="main" id="Homepage">
+
+            <div data-role="panel" data-display="overlay" id="outside" data-theme="a">
+                <ul data-role="listview">
+                    <li><a href="#" data-rel="close" data-icon="back" id="menuUName"></a>
+
+                        <center>
+                    <label style="margin-top:10px;">Welcome in, </label>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;border-radius:20px;" alt="jQuery Mobile" >
+                </center>
+                    </li>
+                </ul>
+                <center>
+            <ul data-role="listview" style="margin-top:30px;width:98%" class="theme-color-green">
+			<li data-icon="user"><a href="#profile" onclick="GetActiveSupplierList()" >My Profile </a></li>
+			<li data-icon="info"><a onclick="index_click()" data-rel="close">Index Page</a></li>
+            <li data-icon="home"><a onclick="home_click()" data-rel="close">Home Page</a></li>
+            <li data-icon="calendar"><a onclick="Rpt_click()">Order Bill Report</a></li>
+            <li id="li-wal" data-icon="star" style="background-color:#edeeed"> <a href="#My-Wallet" onclick="SetWalletBal()" data-transition="flip">My Wallet </a></li>
+            <li id="li-offer" data-icon="eye"> <a href="#div-offer" data-transition="flip">Offers</a></li>
+			<li data-icon="power"><a onclick="Reset()">Logout</a></li>
+		    </ul>
+                    </center>
+            </div>
+            <div id="TableData">
+            </div>
+            <div class="MainDiv" id="HomePage" style="display: none">
+                <div>
+                    <a href=".././">
+                        <img src="assets/img/tia.png" alt="jQuery Mobile" class="MainDiv-logo"></a>
+                    <div class="MainDiv-text">
+                        <p>
+                            A software for business that does everything. From controlling your business to improving your profits and more.
+                            <br />
+                            <br />
+                            Visit: <a href="www.goyalonline.com" onclick="Reset()">www.goyalonline.com </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="MainDiv" id="HomePagehree" style="display: none">
+                <div>
+                    <a href=".././">
+                        <img src="assets/img/MainPagelogo.png"  alt="jQuery Mobile" class="MainDiv-logo"></a>
+                    <div class="MainDiv-text">
+                        <p id="main-p-00002_">
+                            Shree Medical & General Stores is leading medicine shop in Central India having wide range and ready stock of Medicines, Injectables, Surgical Equipment, Tools, Swine Flu, Cancer and Specialised Medicines etc.  
+                            <br />
+                            <br />
+
+                        </p>
+                        <p id="main-p-RSHT01">
+                            A to Z Dava Stores is leading medicine shop in Central India having wide range and ready stock of Medicines, Injectables, Surgical Equipment, Tools, Swine Flu, Cancer and Specialised Medicines etc.  
+                            <br />
+                            <br />
+                          <!--  <a  onclick="DownLoad()"> DownLoad Imgae</a>
+                            <br />
+                            <a onclick="Dwn()"> Download Image 12 </a>
+
+
+                            <img id="dwn_img"   />-->
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <section class="slider" id="slide-offer">
+                <div class="flexslider" id="HomeSlider-div" style="height:18vh">
+                    <ul class="slides" id="sliderFrame" style="display: none" onclick="ShowOffer()">
+                        <li id="slide-1">
+                            <img src="assets/img/slide-1.jpg" />
+                        </li>
+                        <li id="slide-2">
+                            <img src="assets/img/slide-2.jpg" />
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+
+            <div id="menuBottun" class="MainDiv" style="display: none; margin-left: 20px; margin-right: 20px; ">
+
+                <div class="btn-div" id="menuBtn" >
+
+                    <center>
+                        <div id="tbl1">
+                        <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' onclick="Upload_click()">
+                        <li class=' ui-li-static ui-body-inherit ui-first-child ui-last-child'><img src="assets/img/Upload.jpg" /> <label class="theme-color-txt" style="margin-top:6px;">Upload Your ITEM Details </label></li>
+                        </ul>
+                        <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' onclick='Order_click()'>
+                        <li class=' ui-li-static ui-body-inherit ui-first-child ui-last-child'><img src="assets/img/Search.jpg"  /><label class="theme-color-txt" style="margin-top:6px;">Search Product/Item </label> </li>
+                        </ul>
+                         <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' onclick='Track_Order()'>
+                        <li class=' ui-li-static ui-body-inherit ui-first-child ui-last-child'><img src="assets/img/Track.jpg"  /><label class="theme-color-txt" style="margin-top:15px;">Track Order </label> </li>
+                        </ul>
+                            <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' onclick='Order_History()'>
+                        <li class=' ui-li-static ui-body-inherit ui-first-child ui-last-child'><img src="assets/img/History.jpg"  /><label class="theme-color-txt" style="margin-top:15px;">Order History </label> </li>
+                        </ul>
+                             <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' onclick='Party_ledger()'>
+                        <li class=' ui-li-static ui-body-inherit ui-first-child ui-last-child'><img src="assets/img/Upload.jpg" /> <label class="theme-color-txt" style="margin-top:6px;">Party Ledger </label></li>
+                        </ul>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                       <!-- <table  >
+                            <tr>
+                               <td id='td-ord' onclick='Order_click()'>
+                                    <a><img src='assets/img/cart.png'></a>
+                                    <center>
+                                        <p>Order</p>
+                                    </center>
+                                </td>
+                                <td id='td-ldg' onclick='Rpt_click()'>
+                                    <a><img src='assets/img/address-book.png' ></a>
+                                    <center>
+                                        <p>Order Report</p>
+                                    </center>
+                                </td>
+                             </tr>
+                        </table>   -->  
+                        <table id="Table1" style="margin-left:18vw;">
+                            <tr>
+                               <td id='td1' onclick='Order_click()'>
+                                    <a><img src='assets/img/cart.png'></a>
+                                    <center>
+                                        <p>Order</p>
+                                    </center>
+                                </td>                                
+                            </tr>
+                        </table>                   
+                    </center>
+                </div>
+            </div>
+            <div data-role="popup" id="div-clientCode" class="ui-corner-all" data-overlay-theme="b" data-dismissible="false">
+                <form>
+                    <div style="padding: 10px 20px;">
+                        <center>                            
+                            <div id="ClCode">
+                                <label>Enter Mobile No</label>
+                                <input type="number" id="txt-clientMobno" value="" placeholder="Enter Registered Mobile No" data-theme="a">
+                                <label>OR</label>
+                                <label>Registration Code</label>
+                                <input type="text" id="txt-clientCode" value="" placeholder="Enter Registration Code" data-theme="a">
+                                <div id="RegOTPNo">
+                                    <label>OTP No</label>
+                                    <input type="text" id="txt-clientOTP" value="" placeholder="Enter OTP No" data-theme="a">
+                                    <input  type="button" value="OK" class="theme-color-btn" style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;margin-top:10px;" onclick="Reg_CheckOTPNo()" />
+                                </div>
+                                <a href="#divRegi" onclick="ChkOTPSend()" style="text-decoration:underline;padding:12px;">Do'nt have Reg Code? Get Here!!!</a>
+                                <br />
+                                <input  type="button" value="OK" class="theme-color-btn" style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;margin-top:10px;" onclick="fun_CheckPartyReg()" />
+                            </div>                            
+                        </center>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="divRegi" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" style="background-color: white" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-carat-l ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white;">Login</a>
+            <img src="assets/img/red.gif" alt="Offline" class="ui-btn-right alert-img activeImg">
+            <h2 id="h2" style="color: white;">Registration</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+
+                <div data-role="popup" id="popupInfo" class="ui-content" data-theme="a" style="max-width: 350px;">
+                    <p>It is recommanded to select name from List Only.</p>
+                </div>
+                <label>Name</label>
+                <input type="text" placeholder="Enter Name" data-theme="a" id="txtRegName" />
+                <label>Mobile No</label>
+                <input type="number" placeholder="Enter Mobile No" data-theme="a" id="txtMoNO" pattern="[0-9]" />
+               <!-- <div id="Doc_Div">-->
+                <!--<label>Doctor Name</label>
+                <input type="text" placeholder="Enter Doctor Name" data-theme="a" id="txtDocName" onblur="SetDocName('1')" />
+                    </div>-->
+                <label>Email-Id</label>
+                <input type="email" placeholder="Email Id" data-theme="a" id="txtemail" onblur="CheckEmail(this)" />
+                <div id="div_statecity">
+                    <label for="selState">State Name <a id="ast" style="display: none" href="#popupInfo" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a></label>
+                    <input type="text" onblur="CheckListValidation('1')" placeholder="State Name" data-theme="a" id="selState" data-type="search" />
+                    <label for="selcity">City Name <a id="act" style="display: none" href="#popupInfo" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a></label>
+                    <input type="text" onblur="CheckListValidation('2')" placeholder="City Name" data-theme="a" id="selCity" data-type="search" />
+                    <label for="selarea">Area Name <a id="aat" style="display: none" href="#popupInfo" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a></label>
+                    <input type="text" onblur="CheckListValidation('3')" placeholder="Area Name" data-theme="a" id="selArea" data-type="search" />
+                </div>
+                <label>Address</label>
+                <textarea placeholder="Address" data-theme="a" id="txtadd"></textarea>
+
+                <center>
+                     <input id="idRegCon" type="button" value="Continue" style="background: #1390cf;padding:8px 35px 8px 35px; color:white;border:none;cursor:pointer;" class="theme-color-btn"  onclick="CheckMono()"/>
+               </center>
+                <div id="divOTP">
+                    <label style="text-align: center">Enter OTP Number</label>
+                    <input type="number" placeholder="Enter OTP Number" data-theme="a" id="txtotp" />
+                    <center>
+                        <input  id="OtpBtn"  type="button" value="OK" style="background: #1390cf;padding:8px 35px 8px 35px; color:white;border:none;cursor:pointer;" class="theme-color-btn" onclick="CheckOTP()"/>
+                        <input  id="resendOTP"  type="button" value="Resend OTP" style="background: #1390cf;padding:8px 35px 8px 35px; color:white;border:none;cursor:pointer;" class="theme-color-btn" onclick="ResendOTP()"/>
+                    </center>
+                </div>
+                <br />
+            </div>
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+        <!-- /popup -->
+        <button style="display: none;" class="show-page-loading-msg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Saving Data..." data-inline="true">B</button>
+        <button style="display: none;" class="hide-page-loading-msg" data-inline="true" data-icon="delete">Hide</button>
+
+    </div>
+
+    <!-- <div data-role="page" id="GetOTP">
+        <div data-role="header" data-position="fixed" class="jqm-header" style="background-color: #1390cf">
+            <img src="assets/img/red.gif" alt="Offline" class="ui-btn-right alert-img">
+            <h2 id="h3" style="color: white;">OTP</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br /> 
+                          
+                <br />
+            </div>
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+        <button style="display: none;" class="show-page-loading-msg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Saving Data..." data-inline="true">B</button>
+        <button style="display: none;" class="hide-page-loading-msg" data-inline="true" data-icon="delete">Hide</button>
+                
+    </div>-->
+
+    <div data-role="page" id="Item-Info-Search" data-title="Inbox" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img id="Img4" src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div>
+                <a href="#Item-cart" data-transition="slide">
+                    <img id="img-cart" src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" id="lbl-cart-cnt" class="ui-btn-right " style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold; font-size: 11px;"></label>
+                </a>
+            </div>
+            <h2 id="heading1" class="GenralizedApHeading" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw">TiaERP@App</h2>
+            <center>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;margin-top:10px;border-radius:20px;margin-left:42px;" alt="jQuery Mobile" >
+                </center>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+                <div id="item-search-body">
+                    <label class="msgText hide" id="msgText2">No Record Found...</label>
+                    <label>Search Product/Item by Name</label>
+                    <input type="text" id="itm-srch" placeholder="Enter Item Name..." data-theme="a" data-type="search" />
+                    <a id="a_Item-Info-Search-Body" href="#Item-Info-Search-Body" data-transition="flip" style="display: none"></a>
+                    <br />
+                    <center>
+                     <table class="ui-content tbl-btn-nxt-rev" >
+                            <tr>
+                                <td>
+                                    <a href="#page-con" data-transition="flip"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini theme-color-btn" style="background: #1390cf" id="div-backparty" onclick="highlight_Control('div-backparty')"> <img src="assets/img/arrow-left.png" style="width:25px;height:25px;" alt="prev"></div></a>
+                                </td>
+                                <td>
+                                    <a href="#ImageSelect" data-transition="flip"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini theme-color-btn" style="background: #1390cf" id="div2" onclick="highlight_Control('div2')"> <img src="assets/img/upload-Pre.png" style="width:25px;height:25px;" alt="Browse Image"></div></a>
+                                </td>
+                                <td>
+                                    <a onclick="fun_showCart()" ><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" onclick="fun_nextItem()"> <img id="okparty" src="assets/img/arrow-right.png" style="width:25px;height:25px;" alt="next"></div></a>
+                                </td>
+                            </tr>
+                       </table>
+                        </center>
+                </div>
+
+                <div  id="Item-cart" data-title="Inbox" class="jqm-demos">
+        
+        <!-- /header -->
+        <div role="main" class="ui-content">
+            <div class="btn-div" style="margin-left: 25vw; width: 40vw;" id="Empty-basket">
+                <center>
+                    <table>
+                        <tr>
+                            <td id="td2" onclick="fun_nextItem()" class="theme-color-btn">
+                                <a><img src="assets/img/cart.png"></a>
+                                <center>
+                                    <p style="font-weight:bold;">Your Basket Is Empty. Please Add Item</p>
+                                </center>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                </center>
+            </div>
+            
+            <div id="Item-grid-table">
+                <center>
+                    <label id="itm-cnt" style="margin-top:0px;"></label>
+                </center>
+                <div data-theme="b" class="my-page" style="margin-top: -32px;">
+                    <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="grid_Ord">
+                        <ul data-role="listview" data-inset="true" id="Itm_Grid" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                    </div>
+
+                    
+
+                    <table id="tbl_orderDetail" style="width: 90%; margin-left: 17px;">
+                     
+                        <tr>
+                            <td colspan="2">
+                                <label>Bill Details:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="background-color: white; border-radius: 10px; padding: 10px; box-shadow: 0px 3px 5px #bbbdbb">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>Subtotal:</td>
+                                        <td style="float: right" id="amt"></td>
+                                    </tr>                                    
+                                    <tr id="tr_Disc">
+                                        <td id="td3">Discount (20%):</td>
+                                        <td style="float: right" id="DiscAmt">0.00</td>
+                                    </tr>
+                                    <tr id="tr_Wallete">
+                                        <td >Wallet Amt:</td>
+                                        <td style="float: right" id="walAmt">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping Charges:</td>
+                                        <td style="float: right" id="charges"></td>
+                                    </tr>                                   
+                                    <tr>
+                                        <td style="font-weight: bold">Total Order Amount: </td>
+                                        <td style="float: right; font-weight: bold" id="Ordtot"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+                    <table class="ui-content" style="margin-left: 10px; padding: 0; width: 90%;">
+                        <tr>
+                            <td>
+                                <a href="#Item-Info-Search" data-transition="flip">
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow theme-color-btn" style="background: #1390cf" onclick="fun_nextItem()">
+                                        <img id="Img12" src="assets/img/add.png" alt="Add Item">
+                                    </div>
+                                </a>
+                            </td>
+
+                            <td id="td-order-nxt" onclick="SaveOrder()">
+                                <!--<div class="ui-btn ui-input-btn ui-corner-all ui-shadow theme-color-btn" style="background: #1390cf" onclick="fun_nextItem()">
+                                       Order Now
+                                    </div>-->
+                                <center>
+                                <img id="Img13" src="assets/img/OrderNow.jpg" alt="Save" style="width:150px;height:65px">
+                                    </center>
+                            </td>
+                            <td>
+                                <a>
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow theme-color-btn" style="background: #1390cf" onclick="fun_cancelOrder()">
+                                        <img id="Cancel-tmgrid" src="assets/img/cancel1.png" alt="Canecl">
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /content -->
+        <div id="confirm" class="ui-content" data-role="popup" data-theme="a">
+            <p id="question">Are you sure you want to delete this item?</p>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Yes</a>
+                </div>
+                <div class="ui-block-b">
+                    <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Cancel</a>
+                </div>
+            </div>
+        </div>
+        <!-- /popup -->
+
+
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" style="float: left;" class="footer-img">Back</a>
+            <a href="#page-con" data-transition="flip" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a data-icon="action" data-iconpos="notext" class="footer-img" onclick="fun_cancel()">exit</a>
+            <a data-icon="carat-r" data-iconpos="notext" style="margin: 10px; float: right" class="footer-img" onclick="SaveOrder()">next</a>
+        </div>
+    </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div data-role="page" id="ImageSelect" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img id="Img5" src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div class="display-none" id="Div3">
+                <a href="#Item-cart" data-transition="flip">
+                    <img id="img6" src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" id="Label1" class="ui-btn-right " style="display: none; text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold; font-size: 11px;"></label>
+                </a>
+            </div>
+            <h2 id="h5" class="GenralizedApHeading" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw"></h2>
+            <center>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;margin-top:10px;border-radius:20px;" alt="jQuery Mobile" >
+                </center>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center> 
+            <label class="theme-color-txt-red" style="font-size:16px;padding:0px;">Prescription</label>   
+            <p style="margin:0px;">You can upload prescription here..</p>    
+        <div class="full_image">
+            <img id="sel_image" src="assets/img/No_image.png" alt="NoImage" onclick="FullSize()"/>
+            <a href="#" class="full_close theme-color-btn" style="padding:2px;" onclick="Close_img()">X</a>
+           <!-- <a href="#" class="full_left " style="padding:2px;" onclick="RotateLeft()"><img id="Img15" src="assets/img/Left.png" alt="NoImage" style="width:29px;height:29px" /></a> 
+            <a href="#" class="full_right " style="padding:2px;" onclick="RotateRight()"><img id="Img19" src="assets/img/Right.png" alt="NoImage" style="width:25px;height:25px" /></a>           -->
+        </div>        
+        <table class="ui-content tbl-btn-nxt-rev" style="margin-left:-3px;margin-top:-1px;">
+                <tr>
+                    <td>
+                        <a data-rel="back"><div  class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini theme-color-btn" style="background: #1390cf" id="div5" onclick="highlight_Control('div5')"> <img src="assets/img/arrow-left.png" alt="prev"></div></a>
+                    </td>  
+                    <td>
+                        <a  onclick="capturePhotoEdit()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini theme-color-btn" style="background: #1390cf" id="div1" onclick="highlight_Control('div1')"> <img src="assets/img/camera.png" alt="prev"></div></a>
+                    </td>                               
+                    <td>
+                        <a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" id="div4" onclick="highlight_Control('div4')"> <img src="assets/img/images.png" alt="Party Ledger"></div></a>
+                    </td>                               
+                    <td>
+                        <a href="#Item-Info-Search" data-transition="flip" id="A1" onclick=""><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" > <img id="Img7" src="assets/img/arrow-right.png" alt="next"></div></a>
+                    </td>
+                </tr>
+            </table> 
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div data-role="page" id="Item-Info-Search-Body" data-title="Inbox" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img id="Img3" src="assets/img/green.gif" alt="Online" class="ui-btn-left alert-imgOn activeImg">
+            <div>
+                <a href="#" data-transition="flip">
+                    <img id="img9" src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
+                    <label onclick="fun_showCart()" id="lbl-cart-cnt1" class="ui-btn-right " style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold; font-size: 11px;">0</label>
+                </a>
+            </div>
+            <h2 id="h1" class="GenralizedApHeading" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw">TiaERP@App</h2>
+            <center>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;margin-top:10px;border-radius:20px;margin-left:42px;" alt="jQuery Mobile" >
+                </center>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <br />
+                <div id="item-info-body" style="font-family: Verdana;">
+                    <label id="lblItmCode" style="display: none;"></label>
+                    <label id="lblRetailrate" style="display: none;"></label>
+                    <label id="lblItmMRP" style="float: right; font-size: 15px; background-color: #137ab0; color: white; padding: 3px;" class="theme-color-btn"></label>
+                    <label id="lblItmName" style="color: #137ab0; font-size: 17px; font-weight: bold" class="theme-color-txt-red"></label>
+                    <label id="PackExp" style="font-size: 14px; margin-top: -6px;"></label>
+                    <table style="font-size: 15px; width: 100%; border-collapse: collapse;" cellpadding="0">
+                        <tr style="height: 10px;">
+                            <td>
+                                <p>Rate:</p>
+                            </td>
+                            <td>
+                                <label id="lblRate" style="margin-left: 5px;"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Genric:
+                            </td>
+                            <td colspan="2">
+                                <a href="#altITem" data-transition="slidedown" onclick="SubstitudeItemList()" id="lblContent" style="margin-left: 5px;"></a>
+                            </td>
+                        </tr>
+
+                        <tr id="row-qty">
+                            <td>Qty:
+                            </td>
+                            <td colspan="3">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input type="number" min="1" data-theme="a" id="txt-qty" placeholder="Qty" style="display: inline;" pattern="[0-9]" />
+
+                                        </td>
+                                        <td>
+                                            <input type="number" min="1" data-theme="a" id="txt-free" placeholder="Free" style="display: none;" pattern="[0-9]" />
+
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <label class="msgText hide" id="msgText0">Enter Quantity...</label>
+                    <table class="ui-content tbl-btn-nxt-rev">
+                        <tr>
+                            <td>
+                                <a data-rel="back">
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow  ui-mini theme-color-btn" style="background: #1390cf" id="div6" onclick="highlight_Control('div-backparty')">
+                                        <img src="assets/img/arrow-left.png" alt="prev">
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a>
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow theme-color-btn" style="text-decoration: none; padding: 10px; background: #1390cf; color: #fff; text-decoration: none; font-weight: bold;" id="insert_itemInfo" onclick="fun_AddToCart()">Add To Cart</div>
+                                </a>
+                                <a>
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow theme-color-btn" style="text-decoration: none; padding: 10px; background: #1390cf; color: #fff; text-decoration: none; font-weight: bold;" id="update_itemInfo" onclick="fun_AddToCart()">Update</div>
+                                </a>
+                            </td>
+                            <td>
+                                <a data-transition="flip">
+                                    <div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" onclick="fun_nextItem()">
+                                        <img id="Img8" src="assets/img/arrow-right.png" alt="next">
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br />
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <a onclick="BackButton()" data-icon="carat-l" data-iconpos="notext" class="footer-img" style="float: left;">Back</a>
+            <a href="#page-con" data-transition="flip" data-icon="home" data-iconpos="notext" class="footer-img">home</a>
+            <a data-icon="action" data-iconpos="notext" class="footer-img" onclick="fun_cancel()">exit</a>
+            <a data-icon="carat-r" data-iconpos="notext" style="margin: 10px; float: right" class="footer-img" onclick="Forward()">next</a>
+        </div>
+    </div>
+
+    
+
+    <div data-role="page" id="Vrdetail" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <img id="Img14" src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+            <h2 id="h7" style="color: white;">Voucher Detail</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+
+                <div>
+                    <center> 
+                    <p style="color:#137ab0;font-size:20px;font-weight:bold;" id="p_VrNO" class="theme-color-txt-red"> </p></center>
+
+                    <table style="width: 100%">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label id="L_NetAmt" style="float: right; font-size: 16px; background-color: #137ab0; color: white; padding: 5px; font-weight: lighter;">12589.11</label></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p id="p1" style="float: left; font-weight: bold; margin-top: -1px; font-size: 16px; width: 90%; margin-top: -40px">dfdsf jfkdsjf fhdsjhjsd fsdfbnsdbnvv vxcvxcvxvxc cxvxcv</p>
+                            </td>
+                        </tr>
+                        <tr id="img">
+                            <td colspan="2">
+                                <center>
+                                    <img  id="Img16" src="assets/img/No_image.png" alt="NoImage" onclick="FullSize()" style="width:250px;height:130px"/>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="div_itemList">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+                <br />
+                <center>
+                    <!--<a  style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;display:inline-block" onclick="Order_click()" class="theme-color-btn">New Bill</a>-->
+                    <a  style="background: #1390cf;padding:5px 35px 5px 35px; color:white;border:none;cursor:pointer;display:inline-block;text-decoration:none;" onclick="Reload()" class="theme-color-btn">Back To Menu</a>
+                </center>
+                <br />
+            </div>
+        </div>
+        <!-- /popup -->
+
+    </div>
+
+    <div data-role="page" id="profile" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-carat-l ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white;">Back</a>
+            <div style="font-size: 14px;">
+                <h2 id="h8" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw; padding: 11px;">My Profile</h2>
+                <a id="td_notification" onclick="ShowNotify()">
+                    <img id="Img17" src="assets/img/bell.png" alt="Online" class="ui-btn-right alert-imgOn " style="width: 22px; height: 22px; margin-top: 1px">
+                    <label id="lblNotifyCnt" class="ui-btn-right " style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold; font-size: 11px;">0</label>
+                </a>
+            </div>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="pro-div-header " id="div-pro-div-header">
+                <center>                    
+                    <label id="profile_name" style="color:#1390cf;font-size:19px" class="theme-color-txt-red"></label>
+                     <a  onclick="EditProfile()"  >
+                            <img src="assets/img/pencil2.png" id="A3" style="left:12vw;" class="pro-img1" /></a>
+                       
+                    <img id="Profile-img" src="assets/img/add-user.png" class="pro-img"/> 
+                            <a  onclick="ProfileImage()" style="" >
+                            <img src="assets/img/camera.png" id="A2"  style="right:12vw;" class="pro-img1"/></a>                       
+                </center>
+            </div>
+            <div style="background-color: #2fa5e1; font-size: 14px; height: 40px; width: 120%; margin-left: -5%; margin-top: 10px;" class="theme-color-green">
+                <table class="pro-menu">
+                    <tr>
+                        <td id="td_select" onclick="GetActiveSupplierList()">
+                            <label>Supplier </label>
+                        </td>
+                        <td id="td_orderHist">
+                            <label onclick="getOrderHistory()">History </label>
+                        </td>
+                        <td id="td_track">
+                            <label onclick="TrackOrder()">Track </label>
+                        </td>
+                        <!--<td id="td_reffer">
+                            <label onclick="RefferedTo()">Refere </label>
+                        </td>-->
+                    </tr>
+                </table>
+            </div>
+            <div class="body-with-shadow">
+                <div id="select-div">
+                    <center>
+                   <div id="Select" >
+                          
+                    <div id="Select_NoRecord" >
+                        <img id="img2" src="assets/img/blue-user1.png" alt="Checking Status" style="margin-top:15px;" />                    
+                        <p style="font-size:12px;color:#808080;margin-top:-1px;width:60vw;text-align:justify">Here you get supplier list, that are using <b> TiaERP@App </b> Service and process your order. Please select supplier to whom you want to order.</p>
+                    </div>
+                          
+                    <ul data-role="listview" id="Select_Grid" data-inset="true"  class="touch" data-icon="false" data-split-icon="delete" style="width:80vw;">
+                        
+                    </ul>
+                    </div>
+                    </center>
+                </div>
+                <div id="orderHistory-div">
+                    <center>
+                       <div role="main" class="ui-content" style="overflow-x: visible; width: 90%" id="Div-ord-history">
+                         <div id="Div7" >                             
+                        <img id="img18" src="assets/img/blue-cart.png" alt="Checking Status" style="margin-top:15px;" />                    
+                        <p style="font-size:12px;color:#808080;margin-top:-1px;width:60vw;text-align:justify">Here you get your last order details. To veiw order item please tap on required order.</p>
+                       </div>
+                           <div id="Ul-ord-history">
+
+                         </div>
+                           
+                       </div>
+                   </center>
+                </div>
+                <div id="EditProfile">
+                    <br />
+                    <div data-role="popup" id="Div9" class="ui-content" data-theme="a" style="max-width: 350px;">
+                        <p>It is recommanded to select name from List Only.</p>
+                    </div>
+                    <label>Registration Code</label>
+                    <input type="text" placeholder="Enter Name" data-theme="a" id="pro_txtReg" readonly="true" />
+                    <label>Name</label>
+                    <input type="text" placeholder="Enter Name" data-theme="a" id="pro_txtname" pattern="[0-9]" />
+                    <label>Mobile No</label>
+                    <input type="number" data-theme="a" id="pro_txtmo" />
+                    <div id="pro_DocDiv">
+                    <label>Doctor Name</label>
+                    <input type="text" placeholder="Enter Doctor Name" data-theme="a" id="pro_txtDocname" onblur="SetDocName('2')" />
+                    </div>
+                    <label>Email-Id</label>
+                    <input type="email" placeholder="Email Id" data-theme="a" id="pro_txtemail" onblur="CheckEmail(this)" />
+
+                    <label for="selState">State Name <a id="a5" style="display: none" href="#Div9" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a></label>
+                    <input type="text" onblur="CheckListValidation('4')" placeholder="State Name" data-theme="a" id="Textstate" data-type="search" />
+                    <label for="selcity">City Name <a id="a6" style="display: none" href="#Div9" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a></label>
+                    <input type="text" onblur="CheckListValidation('5')" placeholder="City Name" data-theme="a" id="Textcity" data-type="search" />
+                    <label for="selarea">Area Name <a id="a7" style="display: none" href="#Div9" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a></label>
+                    <input type="text" onblur="CheckListValidation('6')" placeholder="Area Name" data-theme="a" id="Textarea" data-type="search" />
+
+                    <label>Address</label>
+                    <textarea placeholder="Address" data-theme="a" id="pro_txtadd"></textarea>
+                    <center>
+                            <input  type="button" value="Update" class="theme-color-btn" style="background: #1390cf;padding:8px 35px 8px 35px; color:white;border:none;cursor:pointer;" onclick="UpdateProfile()" />
+                    </center>
+                    <br />
+
+                </div>
+                <div id="Track">
+                    <br />
+                    <center>
+                    <div style="width:70%">
+                       <select id="ordVrList" onchange="OnChangeTrackOrd()">
+                       </select>
+                        </div>
+                       <div style="background-color:white;border-radius:30px;">
+                           <div data-role="popup" id="DivOrdDetail" class="ui-content" data-theme="a" style="max-width:350px;border-radius:10px 15px;">
+                               <a class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-delete ui-nodisc-icon ui-alt-icon ui-btn-right close-img " style="background-color: #1390cf;" data-rel="back"></a>
+                                <center>
+                                    <div style="margin-top:-15px">
+                                    <label id="dpname" ></label>
+                                     <hr />
+                                        <div id="OPLDiv">
+                                     <label id="dOrdVr" style="color:#137ab0;font-size:19px;"></label>
+                                     <label id="dOrdDate" style="margin-top:-10px;font-size:12px;"></label>                                   
+                                     <p id="dOrdAmt" style="margin-top:-5px;font-size:12px;"></p>
+                                     <hr />
+                                            </div>
+                                        <div id="BEDDiv">
+                                    <label id="dBillVr" style="color:#137ab0;font-size:19px;"></label>
+                                    <p id="dBillDate" style="margin-top:-10px;font-size:12px;"></p>
+                                    <p id="dbillremark" style="margin-top:-10px;font-size:12px;"></p>
+                                    <p id="dbillwaltdisc" style="margin-top:-10px;font-size:12px;"></p>
+                                    <label id="dBillAmt" style="margin-top:-10px;font-size:12px;"></label>
+                                     <hr />
+                                            </div>
+                                        <div id="DSPDiv">
+                                     <label id="Label5" style="color:#137ab0;font-size:19px;"></label>
+                                     <p id="dDispDate" style="margin-top:-10px;font-size:12px;"></p>
+                                     <p id="dExpDelDate" style="margin-top:-10px;font-size:12px;"></p>
+                                     <p id="dDispRemark" style="margin-top:-10px;font-size:12px;"></p>
+                                     <p id="DCour" style="margin-top:-10px;font-size:12px;"></p>
+                                     <hr />
+                                            </div>
+                                        <div id="DELDiv"> 
+                                     <label id="ddElTo" style="color:#137ab0;font-size:19px;"></label>
+                                     <p id="dDelDate" style="margin-top:-10px;font-size:12px;"></p>
+                                     <p id="dcreditmt" style="margin-top:-10px;font-size:12px;"></p>
+                                     <label id="dPaidAmt" style="margin-top:-10px;font-size:12px;"></label>                                     
+                                     <p id="pDelremark" style="margin-top:-7px;font-size:12px;"></p>
+                                           
+                                     <hr />
+                                            </div>
+                                     </div>
+                                </center>
+                           </div>
+                           <br />
+                           <label id="trackVrno" style="color:#137ab0;font-size:19px;"></label>
+                           <label id="trackVrdate" style="margin-top:-10px;font-size:12px;"></label>                            
+                           <label id="lblStatus" style="margin-top:-10px;font-size:12px;"></label>                            
+                           <table style="padding:20px;padding-top:0px;">
+                               <tr>
+                                   <td>
+                                       <a href="#DivOrdDetail" onclick="ShowTrackOrd('1')" data-rel="popup" data-transition="pop">
+                                       <div class="track-img " id="OPLImg">
+                                           <img src="assets/img/cart.png">
+                                       </div>
+                                       </a>
+                                   </td>
+                                   <td></td>
+                                   <td>
+                                       <a href="#DivOrdDetail" onclick="ShowTrackOrd('4')" data-rel="popup" data-transition="pop">
+                                        <div class="track-img " id="DelImg">
+                                           <img src="assets/img/Payment.png" >
+                                       </div>
+                                           </a>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td>
+                                       <img src="assets/img/1.png" class="track-img-arrow track-img-arrow-left">
+                                   </td>
+                                   <td>
+
+                                   </td>
+                                   <td>
+                                       <img src="assets/img/3.png" class="track-img-arrow track-img-arrow-left">
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td>
+                                       <a href="#DivOrdDetail" onclick="ShowTrackOrd('2')" data-rel="popup" data-transition="pop">
+                                       <div class="track-img " id="BillImg">
+                                           <img src="assets/img/billP.png" >
+                                       </div>
+                                           </a>
+                                   </td>
+                                   <td>
+                                       <img src="assets/img/2.png" class="track-img-arrow">
+                                   </td>
+                                   <td>
+                                       <a href="#DivOrdDetail" onclick="ShowTrackOrd('3')" data-rel="popup" data-transition="pop">
+                                       <div class="track-img " id="DispImg">
+                                           <img src="assets/img/disp.png" >
+                                       </div>
+                                           </a>
+                                   </td>
+                               </tr>                               
+                           </table>
+                           <div style="width:80%;text-align:center;display:none;height:120px" id="divdsp">
+                           <label>
+                                <input type="checkbox" id="chkrcd" onclick="updateStatusRcd()">Received Order???
+                           </label>
+                           <label id="lbldispnote" style="color:red"></label>
+                               <br />
+                           </div>
+                            
+                       </div>
+                    </center>
+                    <br />
+                </div>
+                <div id="Reffere">
+                    <br />
+                    <center>
+                      <img src="assets/img/underConstruction.png" style="width:250px;" />
+                   </center>
+                    <br />
+                </div>
+                <div id="notification">
+                    <center>
+                       <label class="theme-color-txt-red" style="font-size:18px;margin-top:8px;">My Notifications</label>
+                       <br />
+                       <div role="main" class="ui-content" style="overflow-x: visible; width: 90%; " id="Div10">                         
+                         <div id="divNotification">
+
+                         </div>   
+                           <a onclick="deleteAllNotiFication()">Delete All Notification.</a>                        
+                       </div>
+                   </center>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <!--<p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>-->
+            <p>Developed By:- Yashaswi R. Narkhedkar</p>
+        </div>
+    </div>
+
+     <div data-role="page" id="div-party-ldgr" data-theme="a" style="overflow: no-display;" class="jqm-demos">
+
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-icon="carat-l" data-iconpos="notext" style="margin-left: 10px; background-color: white;">Back</a>
+            <!--<img id="Img8" src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">-->
+            <h2 id="h6" style="color: white;">Party Ledger</h2>
+            <a onclick="SetEmailDefaultValue()" data-icon="mail" data-iconpos="notext" style="margin-right: 10px; background-color: white;" href="#Mail-Body" data-rel="popup" data-transition="slidedown">Back</a>
+        </div>
+         <center>
+            <div style="width:92%">
+                <div id="Mail-Body" style="padding:10px" data-role="popup" data-theme="a">
+                    <center>
+                        <table>
+                            <tr>
+                                <td>
+                                    To:
+                                </td>
+                                <td>
+                                    <input type="text" data-theme="a" id="txt_ldgToEmail" onblur="validateEmail(this);"  />
+                                    <a >To send mail to more than one person use comma </a><a style ="text-decoration-color :red ">, </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Subject:
+                                </td>
+                                <td>
+                                    <input type="text" data-theme="a" id="txt_ldgSubject" value="Party Ledger" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Body:
+                                </td>
+                                <td>
+                                    <textarea style="height:60px" id="txt_ldgBody">
+                                    </textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Footer/Sign</td>
+                                <td>
+                                    <textarea id="txt_ldgFooter"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <input onclick="SendLedgerEmail()" type="button" value="OK" style="background: #1390cf;padding:5px 25px 5px 25px; color:white;border:none;cursor:pointer;"  />
+                    </center>
+                </div>
+                <div data-role="popup" id="ldgRpt_para" data-theme="a">
+                    <div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" style="margin:0; width:250px;">
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>From Date</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <input type="date" id="frmdt_ldg1" />
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>To Date</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <input type="date" id="todt_ldg1" />
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>Include Op Bal</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <select data-theme="a" data-role="flipswitch" id="flip-chk-opBal">
+                                        <option value="0">NO</option>
+                                        <option value="1" selected="selected">Yes</option>
+                                    </select>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>Summary</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <select data-theme="a" data-role="flipswitch" id="flip-chk-sumary">
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected="selected">No</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                    </div><!-- /collapsible set -->
+                </div>
+                <br />
+                <label id="lblPnameldgBal" style="margin-top:10vmin;"></label>
+                <label id="lblOPBal"  style="width:40%;color:#137ab0">Op-Bal</label>
+                <a onclick="ShowPartyLdgr()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:7%;position:absolute;right:5px;top:55px;"> <img src="assets/img/refresh.png" alt="Refresh"></div></a>
+                <a href="#ldgRpt_para" data-rel="popup" data-transition="slidedown"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:7%;position:absolute;left:5px;top:55px;"> <img src="assets/img/paragraph-center.png" alt="Parameter"></div></a>
+                
+                <div style="overflow:auto;width:100%;">
+                    <!--<div id="wrapper">
+	                    <div id="scroller">-->
+                            <div id="ldgRpt-body" style="display:none;padding: 3px;">
+                            </div>
+                            <div id="ldgRpt-body-summary" style="display:none;">
+                                <label class="lablAmt" id="lbl-s-dr"></label>
+                                <label class="lablAmt" id="lbl-s-cr"></label>
+                                <label class="lablAmt" id="lbl-s-bal"></label>
+                            </div>
+                       <!-- </div>
+                    </div>-->
+                </div>
+                <br />
+                <!--<a onclick="ShowPartyLdgr()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini" style="background: #1390cf;width:15%;position:absolute;right:5px;bottom:5px;"> <img src="assets/img/refresh.png" alt="Party Ledger"></div></a>-->
+            </div>
+        </center>
+    </div>
+
+    <div data-role="page" id="saleRpt" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-carat-l ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white;">Back</a>
+            <div style="font-size: 14px;" class="GenralizedApHeading">
+                <h2 id="h4" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw; padding: 11px;"></h2>
+            </div>
+            <center>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;margin-top:10px;border-radius:20px;" alt="jQuery Mobile" >
+                </center>
+            <img id="Img1" src="assets/img/green.gif" alt="Online" class="ui-btn-right alert-imgOn activeImg">
+        </div>
+        <div role="main" class="ui-content">
+
+            <center>
+               <!-- <div data-role="popup" id="ldgRpt_para" data-theme="a">
+                    <div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" style="margin:0; width:250px;">
+                        <div data-role="collapsible" data-inset="false">
+                            <h2>From Date</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <input type="date" id="frmdt_ldg" />
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        <!--<div data-role="collapsible" data-inset="false">
+                            <h2>To Date</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <input type="date" id="todt_ldg" />
+                                </li>
+                            </ul>
+                        </div><!-- /collapsible -->
+                        
+                        <!--<div data-role="collapsible" data-inset="false">
+                            <h2>VrType</h2>
+                            <ul data-role="listview">
+                                <li>
+                                    <select data-theme="a"  id="flip-chk-vrtype" data-native-menu="false" class="filterable-select">
+                                        <option value="ALL" selected="selected">All</option>
+                                        <option value="C" >Cash</option>
+                                        <option value="R" >Credit</option>
+                                    </select>
+                                </li>
+                            </ul>-->
+                        <!--</div>-->-->--><!-- /collapsible -->
+                   <!-- </div>--><!-- /collapsible set -->
+               <!-- </div>-->
+                
+               <!-- <label  style="color:#137ab0;font-size:18px;margin-top:4px">Sale Report</label>
+                <label id="lblptname1" style="margin-top:-8px;" class="theme-color-txt-red" ></label>
+                <a onclick="GetSaleRpt()"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf;width:7%;position:absolute;right:5px;top:55px;"> <img src="assets/img/refresh.png" alt="Refresh"></div></a>
+                <a href="#ldgRpt_para" data-rel="popup" data-transition="slidedown"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf;width:7%;position:absolute;left:5px;top:55px;"> <img src="assets/img/paragraph-center.png" alt="Parameter"></div></a>
+                --><div style="overflow:auto;width:100%;max-height:70%;">
+                    <div id="wrapper">
+	                    <div id="scroller">
+                        <div id="saleRptBody">
+                                    
+                         </div>
+                        </div>
+                        </div>
+                    </div>                    
+               
+                <br />
+
+            </center>
+
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="altITem" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" style="background-color: white" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-carat-l ui-nodisc-icon ui-alt-icon ui-btn-left ">Login</a>
+            <div style="font-size: 14px;" class="GenralizedApHeading">
+                <h2 id="h9" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw; padding: 11px;"></h2>
+            </div>
+            <center>
+            <img src="assets/img/Header.png" style="width:130px;height:30px;margin-top:10px;border-radius:20px;" alt="jQuery Mobile" >
+                </center>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="body-with-shadow">
+                <center>
+                <label id="gnameS"  style="color:#137ab0;font-size:18px;margin-top:13px;margin-bottom:-15px;" class="theme-color-txt-red"></label>
+                <label id="Label2"  style="color:#808080;font-size:15px;margin-top:10px" >Substitutes Item List</label>
+            </center>
+                <div role="main" class="ui-content" style="overflow-x: visible; width: 90%; margin-top: -22px;">
+                    <ul data-role="listview" data-inset="true" id="Substitude_Grid" class="touch" data-icon="false" data-split-icon="delete"></ul>
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="div-offer" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" style="background-color: white" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-carat-l ui-nodisc-icon ui-alt-icon ui-btn-left ">Login</a>
+            <img src="assets/img/red.gif" alt="Offline" class="ui-btn-right alert-img activeImg">
+            <h2 id="h3" style="color: white;">Offers</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <section class="slider">
+                <div class="flexslider flexslider1">
+                    <ul class="slides" id="Ul1">
+                        <li>
+                            <img src="assets/img/offer-1.png" />
+                        </li>
+                        <li>
+                            <img src="assets/img/offer-2.png" />
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="My-Wallet" class="jqm-demos">
+        <div data-role="header" data-position="fixed" class="jqm-header">
+            <a data-rel="back" style="background-color: white" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-carat-l ui-nodisc-icon ui-alt-icon ui-btn-left ">Login</a>
+            <img src="assets/img/red.gif" alt="Offline" class="ui-btn-right alert-img activeImg">
+            <h2 id="h10" style="color: white;">My Wallet</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <center>
+                <img src="assets/img/nice_wallet_white.png" alt="Wallet" class="theme-color-btn wallet" />
+                 <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' style="overflow-x:auto;">
+                   <li class=' ui-li-static ui-body-inherit ui-first-child ui-last-child' style="overflow-x:auto;">
+                       <table style="width:100%;overflow-x:auto;">
+                           <tr>
+                               <td style="border-right: 2px solid #bbbdbb;padding-right:5px">
+                                   <label class="theme-color-txt" style="font-size:13vmin;text-align:center"><img src="assets/img/ruppees.png" alt="Rs." style="width:10vmin;height:10vmin" /> <span id="wal1"></span></label>
+                                   <label style="color:#bbbdbb;margin-top:-8vmin;font-size:12px;text-align:center">Wallet Balance</label>
+                               </td>
+                               <td >                                  
+                                   <label style="text-align:center"><img src="assets/img/credit.png" alt="Credit" style="width:100px;margin-top:5px" /></label>                                    
+                                   <label id="wal2" class="theme-color-txt-red" style="text-align:center;margin-top:-12px;"></label>                                 
+                               </td>
+                           </tr>
+                       </table>
+                    <hr />
+                          <p onclick="GetLastWalletTransc()" style="color:#1390cf;text-decoration:underline;font-weight:bold;font-size:14px;text-align:center"> View Last Transcations</p>
+                      
+                   </li>
+                 </ul>
+                 <ul  data-role='listview' data-inset='true'  class='touch ui-listview ui-listview-inset ui-corner-all ui-shadow' data-icon='false' style="width:95%" id="wal-last-vr">
+                  
+                 </ul>
+            </center>
+        </div>
+        <div data-role="footer" data-position="fixed" class="my-footer">
+            <p>Copyright &copy; - All Rights Reserved  www.goyalonline.com </p>
+        </div>
+    </div>
+
+    <div class="parentDisable"></div>
+    <div id="ordSaveprog" style="display: none; background-color: white; border-radius: 20px; height: 80px; box-shadow: 0px 3px 5px #bbbdbb; position: fixed; width: 90%; z-index: 1001; margin-top: 100px; margin-left: 20px">
+        <center>
+                <label class="theme-color-txt-red"  style="padding-top:10px">Please Wait! Order Saving...</label>
+                    </center>
+        <progress max="100" id="progress" value="10"></progress>
+    </div>
+    <div id="Div11" style="display: none; background-color: white; border-radius: 8px; border: thick groove #808080; height: auto; box-shadow: 0px 3px 5px #bbbdbb; position: fixed; width: 80%; z-index: 1001; padding: 15px; bottom: 8%; left: 5%">
+    </div>
+    <div id="Div12" style="display: none; background-color: white; border-radius: 8px; border: thick groove #808080; height: auto; box-shadow: 0px 3px 5px #bbbdbb; position: fixed; width: 80%; z-index: 1001; padding: 15px; bottom: 8%; left: 5%">
+    </div>
+</body>
+</html>
