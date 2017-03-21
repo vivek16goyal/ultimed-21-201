@@ -2056,6 +2056,7 @@ function Order_click() {
             localStorage.setItem("FDName", "ORDR");
             localStorage.setItem("VRNOName", "");
             window.location.href = "#Item-Info-Search";
+            fun_showCart();
             SetItem_Count();
         } catch (e) {
             alert(e.message);
