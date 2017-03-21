@@ -83,13 +83,19 @@ function loaded() {
         alert(e.message);
     }
 }
-
+function slider(){
+     $("#slider").load("deep-minified.html");
+   // document.getElementById("content").innerHTML = '<object type="type/html" data="deep-minified.html" ></object>';
+}
 function onDeviceReady() {
     
+    
+
     if (APPType == "@") {
         $("#div_statecity").hide();
     }
     else {
+        slider();
         $("#div_statecity").show();
         try {
             if (HomeSlideCnt == "1") {
