@@ -309,8 +309,9 @@
             <a href="#profile" onclick="GetActiveSupplierList()" id="a4_" data-transition="flip" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-user ui-nodisc-icon ui-alt-icon ui-btn-left " style="background-color: white; display: none">Profile</a>
         </div>
         <div role="main" id="Homepage">
-           <!-- slider--><!--change-->
-            
+            <!-- slider-->
+            <!--change-->
+
             <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden; visibility: hidden;">
                 <!-- Loading Screen -->
                 <div data-u="loading" style="position: absolute; top: 0px; left: 0px; background-color: rgba(0,0,0,0.7);">
@@ -373,7 +374,7 @@
                 <span data-u="arrowright" class="jssora02r" style="top: 0px; right: 8px; width: 55px; height: 55px;" data-autocenter="2"></span>
             </div>
             <script type="text/javascript">jssor_1_slider_init();</script>
-           <!-- changeup-->
+            <!-- changeup-->
             <div data-role="panel" data-display="overlay" id="outside" data-theme="a">
 
 
@@ -626,7 +627,7 @@
             <div>
                 <a href="#Item-cart" data-transition="slide">
                     <img id="img-cart" src="assets/img/icon-cart.png" alt="Cart" class="cart-img" onclick="fun_showCart()">
-                    <label onclick="fun_showCart()" id="lbl-cart-cnt" class="ui-btn-right " style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold; font-size: 11px;"></label>
+                    <label onclick="fun_showCart()" id="lbl-cart-cnt2" class="ui-btn-right " style="text-indent: 1px; padding: 5px; background-color: #4b4b4b; color: white; border-radius: 19px; font-weight: bold; font-size: 11px;"></label>
                 </a>
             </div>
             <h2 id="heading1" class="GenralizedApHeading" style="font-weight: normal; color: white; text-align: center; width: 76vw; margin: 0 10vw">TiaERP@App</h2>
@@ -679,7 +680,12 @@
                     </table>
                 </center>
                         </div>
-
+                       <center>
+            <div class="full_image">
+                <label id="lbl-cart-pre">Selected Image</label>
+                <img id="cart-pre" src="assets/img/No_image.png" alt="NoImage" onclick="FullSize()" />
+            </div>
+                </center>
                         <div id="Item-grid-table">
                             <center>
                     <label id="itm-cnt" style="margin-top:0px;"></label>
@@ -689,10 +695,38 @@
                                     <ul data-role="listview" data-inset="true" id="Itm_Grid" class="touch" data-icon="false" data-split-icon="delete"></ul>
                                 </div>
 
-
+                                <a id="lnk" onclick="ShowHide()" style="margin-top: -30vh; margin-left: 17px;">+Veiw/Hide Order Details..</a>
 
                                 <table id="tbl_orderDetail" style="width: 90%; margin-left: 17px;">
 
+                                    <tr>
+                                        <td colspan="2">
+                                            <label>User Details:</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="background-color: white; border-radius: 10px; padding: 10px; box-shadow: 0px 3px 5px #bbbdbb">
+                                            <p id="Cust"></p>
+                                            <p id="CustNo"></p>
+                                            <p id="CustEmail"></p>
+                                            <p id="CustAdd"></p>
+                                            <p id="CustState"></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div data-role="popup" id="Div8" class="ui-content" data-theme="a" style="max-width: 350px;">
+                                                <p>It is recommanded to select name from List Only.</p>
+                                            </div>
+                                            <label>Delivery Address:<a id="a8" style="display: none" href="#Div8" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">i</a><span id="a-msg" style="color: red; display: none">Area Required!!!</span></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="background-color: white; border-radius: 10px; padding: 10px; box-shadow: 0px 3px 5px #bbbdbb">
+                                            <input type="text" onblur="CheckListValidation('7')" id="del-area" data-type="search" placeholder="Area Name.." />
+                                            <textarea id="txtbillingAdd"></textarea>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colspan="2">
                                             <label>Bill Details:</label>
@@ -738,7 +772,7 @@
                                             </a>
                                         </td>
 
-                                        <td id="td-order-nxt" onclick="SaveOrder()">
+                                        <td id="td-order-nxt" onclick="chenregistration()">
                                             <!--<div class="ui-btn ui-input-btn ui-corner-all ui-shadow theme-color-btn" style="background: #1390cf" onclick="fun_nextItem()">
                                        Order Now
                                     </div>-->
@@ -825,7 +859,9 @@
                         <a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" id="div4" onclick="highlight_Control('div4')"> <img src="assets/img/images.png" alt="Party Ledger"></div></a>
                     </td>                               
                     <td>
-                        <a href="#Item-Info-Search" data-transition="flip" id="A1" onclick=""><div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" > <img id="Img7" src="assets/img/arrow-right.png" alt="next"></div></a>
+                        <a href="#Item-Info-Search" data-transition="flip" id="A1" onclick="highlight_Control('div3')">
+                       <div class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-mini theme-color-btn" style="background: #1390cf" onclick="fun_nextItem()" > 
+                       <img id="Img7" src="assets/img/arrow-right.png" alt="next"></div></a>
                     </td>
                 </tr>
             </table> 

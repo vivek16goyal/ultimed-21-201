@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Contacts</title>
+    <link rel=" stylesheet" href="assets/css/App.css">
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.5.min.css">
+    <link rel=" stylesheet" href="assets/css/animate.css">
+    <link rel=" stylesheet" href="assets/css/TableCSSCode.css">
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <script type="text/javascript" src="js/jquery-1.9.js"></script>
+
+    <!--SMS-->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <!--for autocomplete-->
+    <script type="text/javascript" src="js/jquery-ui-1.10.3.js"></script>
+    <script src="assets/js/iscroll-zoom.js"></script>
+    <!-- <script type="text/javascript" src="PushNotification.js"></script>-->
+    <script src="assets/js/push_notification.js"></script>
+    <script src="assets/js/gistfile1.js"></script>
+
+    <!-- For slider -->
+    <link rel="stylesheet" href="assets/FlexSlider/flexslider.css">
+    <script defer src="assets/FlexSlider/modernizr.js"></script>
+    <script defer src="assets/FlexSlider/jquery.flexslider.js"></script>
+    <style>
+        .error {
+            font-size: 0.8em;
+            border: 1px solid;
+            margin: 10px 0px;
+            padding: 15px 10px 15px 8px;
+            text-align: center;
+            color: #D8000C;
+            background-color: #FFBABA;
+        }
+    </style>
+
+</head>
+
+<body onload="onBodyLoad()">
+    <h1>WebSQL</h1>
+    <input id="txFirstName" type="text" placeholder="FirstName">
+    <input id="txLastName" type="text" placeholder="Last Name">
+    <input type="button" value="Add record" onclick="AddValueToDB()">
+    <input type="button" value="Refresh" onclick="ListDBValues()">
+    <br>
+    <br>
+    <span style="font-weight: bold;">Currently stored values:</span>
+    <span id="lbUsers"></span>
+</body>
+</html>

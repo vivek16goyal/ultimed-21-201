@@ -5,6 +5,7 @@
 //////Heading : App Name
 //////PCODE : Party Code used for specialized app
 //////folderPathImg : 
+
 var APPType = "$";
 
 //  1)///////************SHREE MEDICAL*************////////////////////////
@@ -35,7 +36,7 @@ var APPType = "$";
 
 //  3)///////*******A to Z Dava [Demo Version Given To Drug Deal] **********************//////////
 var Heading = "ULTIMED";
-var PCODE = "DEM010";
+var PCODE = "dem001";
 var folderPathImg = "file:///storage/sdcard0/" + PCODE + "/";
 var DownloadPath = "file:///storage/sdcard0/";
 var FolderName = PCODE;
@@ -43,7 +44,7 @@ var SMSFrom = "md-goyals";
 var HomeSlideCnt = "1";
 var pDiscOnOrder = "1";
 var pWallet = "0";
-var pDiscPer = "20";
+var pDiscPer = "";
 var pDocReq = "1";
 //////*********************Generlized App*****************************//////////////
 //var APPType = "@"; 
@@ -59,8 +60,8 @@ var pDocReq = "1";
 
 var SMSFrom = "md-goyals";
 var loadmsg="Please Wait....";
-var GBCServicePath = "http://tiaapp.goyalonline.in/";
-//var GBCServicePath = "http://localhost:51738/";
+//var GBCServicePath = "http://tiaapp.goyalonline.in/";
+var GBCServicePath = "http://localhost:51738/";
 var pictureSource;
 var destinationType;
 var folderPath = "file:///storage/sdcard0";
@@ -84,13 +85,10 @@ function loaded() {
     }
 }
 function slider(){
-     $("#slider").load("deep-minified.html");
-   // document.getElementById("content").innerHTML = '<object type="type/html" data="deep-minified.html" ></object>';
+    $("#slider").load("deep-minified.html");
+    // document.getElementById("content").innerHTML = '<object type="type/html" data="deep-minified.html" ></object>';
 }
 function onDeviceReady() {
-    
-    
-
     if (APPType == "@") {
         $("#div_statecity").hide();
     }
@@ -195,7 +193,10 @@ function cliencode_check() {
 
     }
 }
+
 //party ledger//vivek umredkar
+
+
 function Party_ledger() {
     window.location.href = "#div-party-ldgr";
     ShowPartyLdgr();
@@ -206,7 +207,7 @@ function ShowPartyLdgr() {
     localStorage.setItem("Ldg_OpBal", "");
 
     WebSerUrl = localStorage.getItem("APIURL");
-    var pcode = "A10000";
+    var pcode = "dem001";
     if (localStorage.getItem("FDName") == "ORDS") {
         pcode = localStorage.getItem("pcode");
     } else if (localStorage.getItem("FDName") == "WSAL") {
@@ -228,7 +229,7 @@ function ShowPartyLdgr() {
     if (pcode != "" && pcode != null) {
         loadmsg = "Loading Data...";
         $(".show-page-loading-msg").click();
-         var frmdate = $("#frmdt_ldg1").val();
+        var frmdate = $("#frmdt_ldg1").val();
         var todate = $("#todt_ldg1").val();
         //var todate;
         //var frmdate;
@@ -357,7 +358,7 @@ function SendLedgerEmail() {
     } else {
         Issummary = false
     }
-  //  var pcode = localStorage.getItem("Ldg_PCODE");
+    //  var pcode = localStorage.getItem("Ldg_PCODE");
     var list_partyLdgr = localStorage.getItem("Ldg_DataList");
     var ToEmail = $("#txt_ldgToEmail").val();
     var Subject = $("#txt_ldgSubject").val();
@@ -552,9 +553,11 @@ function CheckPartyRegistration(val) {
     if (clientCode == null || clientCode == "") {
         showClient();
     }
-    else {       
-        var url = GBCServicePath + "/Values/CheckPatient?PtCode=" + clientCode;
-       
+    
+    else {  
+        var APIURL = localStorage.getItem("APIURL");     
+       // var url = GBCServicePath + "/Values/checkparty?PtCode=" + clientCode;
+         var url = APIURL + "/Values/checkparty?PtCode=" + clientCode;
         try {
             $.ajax({
                 url: url,
@@ -841,12 +844,15 @@ function CheckMono() {
             } else {
                 MoNo = $("#txtMoNO").val();
             }
+            var WebSerUrl = localStorage.getItem("APIURL");
+
             $.ajax({
-                url: GBCServicePath + "/Values/CheckNo?Mo=" + MoNo,
+                url: WebSerUrl + "/Values/CheckNo?Mo=" + MoNo,
                 type: "GET",
                 dataType: "json",
                 cache: false,
                 success: function (data) {
+                   
                     if (data.indexOf("$") == 0) {
                         alert(data);
                         $(".hide-page-loading-msg").click();
@@ -906,7 +912,7 @@ function ChkOTPSend() {
 
 function SendingOTP() {
     try {
-       // alert('sendoing otp');
+        // alert('sendoing otp');
         startWatch();
         var Name = $("#txtRegName").val().trim();
         var MoNo = $("#txtMoNO").val().trim();
@@ -1661,8 +1667,8 @@ function Register() {
         var Address = $("#txtadd").val();
         var Email = $("#txtemail").val();
         var state = $("#selState").val();
-        var DrName = $("#txtDocName").val();
-        var DrCode = localStorage.getItem("DocCode");
+        // var DrName = $("#txtDocName").val();
+        //var DrCode = localStorage.getItem("DocCode");
         if (localStorage.getItem("Stcode") != "" && localStorage.getItem("Stcode") != null) {
             state = localStorage.getItem("Stcode");
         }
@@ -1674,8 +1680,10 @@ function Register() {
         if (localStorage.getItem("Acode") != "" && localStorage.getItem("Acode") != null) {
             area = localStorage.getItem("Acode");
         }
+        var WebSerUrl = localStorage.getItem("APIURL");
         $.ajax({
-            url: GBCServicePath + "/Values/RegisterCustmoer?name=" + Name + "&Add=" + Address + "&email=" + Email + "&phone=" + MoNo + "&Pass= &AppType=" + APPType + "&PCODE=" + PCODE + "&Stcode=" + state + "&CtCode=" + city + "&area=" + area + "&deviceId =" + localStorage.getItem("DeviceId") + "&DrName=" + DrName + "&DrCode=" + DrCode,
+            // url: GBCServicePath + "/Values/RegisterCustmoer?name=" + Name + "&Add=" + Address + "&email=" + Email + "&phone=" + MoNo + "&Pass= &AppType=" + APPType + "&PCODE=" + PCODE + "&Stcode=" + state + "&CtCode=" + city + "&area=" + area + "&deviceId =" + localStorage.getItem("DeviceId") + "&DrName=" + DrName + "&DrCode=" + DrCode,
+            url: WebSerUrl + "/Values/RegisterCustmoer?name=" + Name + "&Add=" + Address + "&email=" + Email + "&phone=" + MoNo + "&Pass= &AppType=" + APPType + "&PCODE=" + PCODE + "&Stcode=" + state + "&CtCode=" + city + "&area=" + area + "&deviceId =" + localStorage.getItem("DeviceId"),
             type: "GET",
             dataType: "json",
             cache: false,
@@ -1849,7 +1857,7 @@ function SetStaeCity() {
 function SetOrderBillAmtType() {
     try {              
         var DelChrg = localStorage.getItem("DelCharges");    
-        $("#charges").text(Number(DelChrg).toFixed(2));
+       $("#charges").text(Number(DelChrg).toFixed(2));
         var Amt = $("#amt").text().toString().replace("Rs.", "");
         var NwAmt = Number(Amt) ;
         var WalAmt;
@@ -1861,8 +1869,8 @@ function SetOrderBillAmtType() {
             $("#tr_Disc").hide();
             DiscAmt = 0;
         }
-        $("#DiscAmt").text(DiscAmt.toFixed(2));
-        NwAmt = Number(NwAmt) - Number(DiscAmt)
+       $("#DiscAmt").text(DiscAmt.toFixed(2));
+        NwAmt = Number(NwAmt)
         if (pWallet == "1") {
             $("#tr_Wallete").show();
             WalAmt = $("#wal1").text();
@@ -1876,11 +1884,13 @@ function SetOrderBillAmtType() {
         } else {
             $("#walAmt").text(Number(WalAmt).toFixed(2));
         }
-         WalAmt = $("#walAmt").text();
-         var Total = ((Number(NwAmt) - Number(WalAmt)) + Number(DelChrg)).toFixed(2);
-         Total = Math.ceil(Number(Total));
-         Total = Number(Total).toFixed(2);
-         $("#Ordtot").text(Total);
+        WalAmt = $("#walAmt").text();
+        //change for total amount
+        var Total = ((Number(NwAmt) - Number(WalAmt)) + Number(DelChrg)).toFixed(2);
+        //var Total = (Number(NwAmt)).toFixed(2);
+        Total = Math.ceil(Number(Total));
+        Total = Number(Total).toFixed(2);
+        $("#Ordtot").text(Total);
     } catch (e) {
         alert(e.message);
     }
@@ -2098,34 +2108,34 @@ function SetItem_Count() {
         var count;
         if (arry != null) {
             var a = arry.split('$');
-             count = a.length - 1;
+            count = a.length - 1;
         }
         else {
             count = 0;
         }
-            if (count == 0) {
-                $("#itm-cnt").hide();
-                $("#Empty-basket").show();
-                $("#Itm_Grid").html("");
-                var src = document.getElementById('Img16').src;
-                if (src.indexOf("No_image.png") > 0) {
-                    $("#Item-grid-table").hide();
-                } else {
-                    $("#Item-grid-table").show();
-                }
-
+        if (count == 0) {
+            $("#itm-cnt").hide();
+            $("#Empty-basket").show();
+            $("#Itm_Grid").html("");
+            var src = document.getElementById('Img16').src;
+            if (src.indexOf("No_image.png") > 0) {
+                $("#Item-grid-table").hide();
             } else {
-                $("#itm-cnt").show();
-                $("#Empty-basket").hide();
                 $("#Item-grid-table").show();
             }
-            $("#itm-cnt").text("Total " + Number(count) + " Item found");
-            $("#lbl-cart-cnt").text(count);
-            $("#lbl-cart-cnt1").text(count);
-            $("#lbl-cart-cnt2").text(count);
-            textAnim('lbl-cart-cnt', 'bounceInDown');
-            textAnim('lbl-cart-cnt1', 'bounceInDown');
-            textAnim('lbl-cart-cnt2', 'bounceInDown');
+
+        } else {
+            $("#itm-cnt").show();
+            $("#Empty-basket").hide();
+            $("#Item-grid-table").show();
+        }
+        $("#itm-cnt").text("Total " + Number(count) + " Item found");
+        $("#lbl-cart-cnt").text(count);
+        $("#lbl-cart-cnt1").text(count);
+        $("#lbl-cart-cnt2").text(count);
+        textAnim('lbl-cart-cnt', 'bounceInDown');
+        textAnim('lbl-cart-cnt1', 'bounceInDown');
+        textAnim('lbl-cart-cnt2', 'bounceInDown');
         
     }catch(E){
     }
@@ -2161,7 +2171,7 @@ function capturePhotoEdit() { ///////////
     navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
         quality: 20,
         destinationType: destinationType.FILE_URI,
-        saveToPhotoAlbum: true
+        // saveToPhotoAlbum: true
     });
 }
 
@@ -2247,7 +2257,7 @@ function send(imageURI, fileName, val) {
     if (val == "GBC") {
         WebSerUrl = GBCServicePath;
     } else {
-         WebSerUrl = localStorage.getItem("APIURL");
+        WebSerUrl = localStorage.getItem("APIURL");
     }
     var ft = new FileTransfer();
     ft.upload(imageURI, encodeURI(WebSerUrl + "/upload/Post"), win, fail, options);
@@ -2583,6 +2593,7 @@ function fun_nextItem() {
         window.location.href = "#Item-cart";
     } else {
         window.location.href = "#Item-Info-Search";
+        // fun_showCart();
     }
 }
 
@@ -2798,75 +2809,106 @@ $(function () {
     }
 });
 
+
+function chenregistration()
+{
+    var ptco= localStorage.getItem("PTCODE");
+    var code=ptco.substring(0,4);
+    now = new Date;
+    var year = now.getFullYear();
+    if (year == code)
+    {
+        alert("please valid your user contact system administrator ");
+    }
+else
+    {
+        //localStorage.setItem("ClientCode", data);
+        //localStorage.setItem("PTCODE", data);
+
+         SaveOrder();
+    }
+
+}
+
 function SaveOrder() {    
     //loadmsg = "Saving Data...";
     // $(".show-page-loading-msg").click();
-    //if ($("#del-area").val().trim() == "" || $("#del-area").val() == "null") {
-    //    $("#a-msg").show();
-    //    $("#a8").show();
-    //    textAnim('a-msg', 'flash');
-    //    textAnim('a8', 'bounceInDown');
-    //    $("#del-area").focus();
-    //}
-    //else
+   
+
+
+    if ($("#del-area").val().trim() == "" || $("#del-area").val() == "null") {
+        $("#a-msg").show();
+        $("#a8").show();
+        textAnim('a-msg', 'flash');
+        textAnim('a8', 'bounceInDown');
+        $("#del-area").focus();
+    }
+    else
+    
     {
-        UpdateArea(localStorage.getItem("Acode"), localStorage.getItem("PTCODE"));
-        $("#progress").val(20);
-        $(".parentDisable").show();
-        window.scrollTo(0, 0);        
-        $("#ordSaveprog").show();
-        textAnim('ordSaveprog', 'slideInLeft');
-        var WebSerUrl = localStorage.getItem("APIURL");
-        if ($("#lbl-cart-cnt2").text() == "0") {
-            WebSerUrl = WebSerUrl + "/Order/SaveOrderCon1";
-        } else {
-            WebSerUrl = WebSerUrl + "/Order/SaveOrderCon";
-        }
-        $.ajax({
-            url: WebSerUrl,
-            type: "post",
-            data: getUserDataForOrderPlace("0"),
-            dataType: 'json',
-            processData: true,
-            success: function (data) {
-                $("#progress").val(65);
-                if (data != null) {
-                    if (data.vrno == null) {
-                        ShowErrorFromServer(data.pcode);
+        
+        {
+        
+            //UpdateArea(localStorage.getItem("Acode"), localStorage.getItem("PTCODE"));
+            $("#progress").val(20);
+            $(".parentDisable").show();
+            window.scrollTo(0, 0);        
+            $("#ordSaveprog").show();
+            textAnim('ordSaveprog', 'slideInLeft');
+            var WebSerUrl = localStorage.getItem("APIURL");
+            if ($("#lbl-cart-cnt2").text() == "0") {
+                WebSerUrl = WebSerUrl + "/Order/SaveOrderCon1";
+            } else {
+                WebSerUrl = WebSerUrl + "/Order/SaveOrderCon";
+            }
+            $.ajax({
+                url: WebSerUrl,
+                type: "post",
+                data: getUserDataForOrderPlace("0"),
+                dataType: 'json',
+                processData: true,
+                success: function (data) {
+                    $("#progress").val(65);
+                    if (data != null) {
+                        if (data.vrno == null) {
+                            ShowErrorFromServer(data.pcode);
+                        }
+                        else {
+                            var filename = "";
+                            var smallImage = document.getElementById('sel_image');
+                            var image = smallImage.src;
+                            if (smallImage.src.indexOf("No_image.png") < 0) {
+                                var imageURI = localStorage.getItem("ImagePath");
+                                filename = send(imageURI, data.vrno, "");                          
+                            }
+                            SaveOrderinGBC(data.vrno, filename, data.TotalAmt);
+                            SetVrDeetail(data.vrno, data.TotalAmt, data.pcode, data.items);
+                            var vrno = data.vrno;
+                            setTimeout(function abc() {
+                                SendNotif(vrno);
+                            }, 7000);
+                        }
+                        $(".hide-page-loading-msg").click();
                     }
                     else {
-                        var filename = "";
-                        var smallImage = document.getElementById('sel_image');
-                        var image = smallImage.src;
-                        if (smallImage.src.indexOf("No_image.png") < 0) {
-                            var imageURI = localStorage.getItem("ImagePath");
-                            filename = send(imageURI, data.vrno, "");                          
-                        }
-                        SaveOrderinGBC(data.vrno, filename, data.TotalAmt);
-                        SetVrDeetail(data.vrno, data.TotalAmt, data.pcode, data.items);
-                        var vrno = data.vrno;
-                        setTimeout(function abc() {
-                            SendNotif(vrno);
-                        }, 7000);
+                        alert("Save Failed. Please Try Again!!!");
                     }
+                    $("#progress").val(75);
+                },
+                error: function (xmlHttpRequest, textStatus, errorThrown) {
                     $(".hide-page-loading-msg").click();
+                    alert("Please Try Again!!!" + xmlHttpRequest.responseText);
+                    $("#ordSaveprog").hide();
+                    $(".parentDisable").hide();
                 }
-                else {
-                    alert("Save Failed. Please Try Again!!!");
-                }
-                $("#progress").val(75);
-            },
-            error: function (xmlHttpRequest, textStatus, errorThrown) {
-                $(".hide-page-loading-msg").click();
-                alert("Please Try Again!!!" + xmlHttpRequest.responseText);
-                $("#ordSaveprog").hide();
-                $(".parentDisable").hide();
-            }
-        });
+            });
+        }
     }
 }
+    
+
 function SaveOrderinGBC(vrno, name, amt) {
-   // var amt = $("#Ordtot").text().toString().replace("Rs.", "");
+    // var amt = $("#Ordtot").text().toString().replace("Rs.", "");
     var charge = $("#charges").text().toString().replace("Rs.", "");
     var model = {
         FromUserId: localStorage.getItem("PTCODE"),
@@ -2895,7 +2937,7 @@ function SaveOrderinGBC(vrno, name, amt) {
 function getUserDataForOrderPlace(val) {
     var pcode;
     if (val == "0") {
-        pcode = "ZZZZZZ";
+        pcode = localStorage.getItem("PTCODE");
     }
     else {
         pcode = localStorage.getItem("PCode");
@@ -2916,7 +2958,7 @@ function getUserDataForOrderPlace(val) {
     if (dataArr == "") {
         var data = {
             "pcode": pcode,
-            "PatientID": localStorage.getItem("PTCODE"),
+            "PatientID": localStorage.getItem("ClientCode"),
             "NameP": localStorage.getItem("PTNAME"),
             "Addr": $("#txtbillingAdd").val(),
             "DCode": localStorage.getItem("DrCode"),
@@ -2935,7 +2977,7 @@ function getUserDataForOrderPlace(val) {
         var data = {
             "items": dataArr,
             "pcode": pcode,
-            "PatientID": localStorage.getItem("PTCODE"),
+            "PatientID": localStorage.getItem("ClientCode"),
             "NameP": localStorage.getItem("PTNAME"),
             "Addr": $("#txtbillingAdd").val(),
             "DCode": localStorage.getItem("DrCode"),
@@ -3747,7 +3789,7 @@ function SubstitudeItemList() {
     loadmsg = "Loading Item List...";
     $(".show-page-loading-msg").click();
     var WebSerUrl = localStorage.getItem("APIURL") + "/Product/AlternateIMList?icode=" + $("#lblItmCode").text();
-        $.ajax({
+    $.ajax({
         url: WebSerUrl,
         type: "GET",
         dataType: "json",
@@ -4237,8 +4279,9 @@ function GetPRetailOrdQty() {
 }
 
 function GetDataFromMobNo() {
+    WebSerUrl = localStorage.getItem("APIURL");
     $.ajax({
-        url: GBCServicePath + "/Values/getDataFromMobno?MobNo=" + $("#txt-clientMobno").val(),
+        url: WebSerUrl + "/Values/getDataFromMobno1?MobNo=" + $("#txt-clientMobno").val(),
         type: "GET",
         dataType: "json",
         cache: false,
@@ -4261,13 +4304,18 @@ function GetDataFromMobNo() {
     });
 }
 function GetDataFromRegCode() {
+    WebSerUrl = localStorage.getItem("APIURL");
     $.ajax({
-        url: GBCServicePath + "/Values/getDataFromRegCode?code=" + $("#txt-clientCode").val(),
+        // url: GBCServicePath + "/Values/getDataFromRegCode1?code=" + $("#txt-clientCode").val(),
+        url: WebSerUrl + "/Values/getDataFromRegCode1?code=" + $("#txt-clientCode").val(),
         type: "GET",
         dataType: "json",
         cache: false,
         success: function (data) {
-            $(".hide-page-loading-msg").click();
+            str = data.split('|')
+            localStorage.setItem("ClientCode", str[4]);
+            localStorage.setItem("PTCODE", str[4]);
+           $(".hide-page-loading-msg").click();
             if (data != "") {
                 var arry = data.split('<|>');
                 if (confirm("Client Detail of entered Registration Code is\nName : " + arry[0] + "\nMobile No : " + arry[3] + "\nAddress : " + arry[1] + "\n\nWish to continue to send OTP No In Registered Mobile No.")) {
@@ -4290,7 +4338,7 @@ function GetDataFromRegCode() {
 
 function SendingRegistrtionCode() {
     try {
-     
+
         // alert('sendoing otp');
         startWatch();
         var MoNo = $("#txt-clientMobno").val().trim();
@@ -4304,7 +4352,7 @@ function SendingRegistrtionCode() {
         var showIntval1 = setInterval(function fun2() {
             $(".show-page-loading-msg").click();
         }, 10);
-        
+
         var msg = "Hi! Welcome to TiaERP@ConsumerApp. Your Registrion Code is ";
         if (APPType == "$") {
             msg = "Hi! Welcome to " + Heading + " App. Your Registrion Code is ";
@@ -4320,10 +4368,10 @@ function SendingRegistrtionCode() {
             type: "GET",
             dataType: "json",
             cache: false,
-            success: function (data) {               
+            success: function (data) {
                 if (data == "1") {
                     clearInterval(showIntval1);
-                    $(".show-page-loading-msg").click();                    
+                    $(".show-page-loading-msg").click();
                     ReadSMSRegCode();
                 } else {
                     clearInterval(showIntval1);
@@ -4356,7 +4404,7 @@ function ReadSMSRegCode() {
     else {
         loadmsg = "Verifying SMS to read registration code.";
     }
-    
+
     $(".show-page-loading-msg").click();
     showIntval = setInterval(function fun2() {
         $(".show-page-loading-msg").click();
@@ -4580,6 +4628,7 @@ function updateStatusRcd() {
        
     }
 }
+
 
 
 

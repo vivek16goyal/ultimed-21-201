@@ -4,9 +4,9 @@
 
 //varible hold loading msg
 var loadmsg="Please Wait....";
-var GBCServicePath = "http://tiaapp.goyalonline.in/";
+//var GBCServicePath = "http://tiaapp.goyalonline.in/";
 
-//var GBCServicePath = "http://localhost:51738/";
+var GBCServicePath = "http://localhost:51738/";
 var isprint = '0';
 var pictureSource;
 var destinationType;
@@ -447,7 +447,8 @@ function LoadMenu() {
             //"<li  class='ui-li-has-icon ui-first-child' ><a href='#DisplaySetting'   data-transition='flip' style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>Display Setting</a></li>"+
             "<li class='ui-li-has-icon ui-first-child' ><a href='#div-flag'  data-transition='flip' style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>Flags</a></li>" +
             "<li onclick='GetAppUserInfo();' class='ui-li-has-icon ui-first-child' ><a href='#appSetting-div'  data-transition='flip' style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>App Setting</a></li>"+
-            "<li onclick='changeAccount();' class='ui-li-has-icon ui-first-child' ><a href='#appchange-pass'  data-transition='flip' style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>Change Password</a></li>");
+            "<li onclick='changeAccount();' class='ui-li-has-icon ui-first-child' ><a href='#appchange-pass'  data-transition='flip' style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>Change Password</a></li>"+
+         "<li onclick='get_item_detail();' class='ui-li-has-icon ui-first-child' ><a href='#'  data-transition='flip' style='background-color:#999; color:white;' class='ui-btn'><img style='margin-top:-7px;' src='assets/img/cog2.png' alt='USA' class='ui-li-icon'>Synchronize Item</a></li>");
         if (Invoice == '0') {
             $("#mnuliinvoice").hide();
         }
@@ -572,7 +573,126 @@ function AfterLoginPage()
         alert(e.message());
     }
 }
+//change sql lite by vivek
+function get_item_detail()
+{
+    sycronize_item_master();
+    loadmsg = "Loading App User Data";
+    $(".show-page-loading-msg").click();
 
+}
+
+function errorHandler(transaction, error) {
+    alert('Error: ' + error.message + ' code: ' + error.code);
+
+}
+
+// this is called when a successful transaction happens
+function successCallBack() {
+    alert("DEBUGGING: Database is created Succefully");
+
+}
+
+function nullHandler() { };
+
+// called when the application loads
+function sycronize_item_master() {
+
+    // This alert is used to make sure the application is loaded correctly
+    // you can comment this out once you have the application working
+    alert("DEBUGGING: This funtion is used for the Offline Mode we are Fetching Data for the offline work ");
+
+    if (!window.openDatabase) {
+        // not all mobile devices support databases  if it does not, the
+        //following alert will display
+        // indicating the device will not be albe to run this application
+        alert('Databases are not supported in this browser.');
+        return;
+    }
+
+    // this line tries to open the database base locally on the device
+    // if it does not exist, it will create it and return a database
+    //object stored in variable db
+    db = openDatabase(shortName, version, displayName, maxSize);
+
+    // this line will try to create the table User in the database just
+    ////created/openned
+    db.transaction(function (tx) {
+
+        //  // you can uncomment this next line if you want the User table to be
+        //empty each time the application runs
+        //  tx.executeSql( 'DROP TABLE User',nullHandler,nullHandler);
+
+        //  // this line actually creates the table User if it does not exist
+        //and sets up the three columns and their types
+        //  // note the UserId column is an auto incrementing column which is
+        //useful if you want to pull back distinct rows
+        // easily from the table.
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Item_master(ICODE nvarchar(7) NOT NULL PRIMARY KEY, INAME TEXT NOT NULL, Mrp TEXT NOT NULL,packing TEXT,pursize TEXT,GNAme TEXT,Rate TEXT,WRate TEXT)', [], nullHandler, errorHandler);
+        tx.executeSql('CREATE TABLE IF NOT EXISTS party_master(PCODE  nvarchar(7) NOT NULL PRIMARY KEY, PNAME  TEXT NOT NULL, Add1  TEXT ,ConsumerMob TEXT)', [], nullHandler, errorHandler);
+        tx.executeSql('CREATE TABLE IF NOT EXISTS area_master(aName  TEXT,aCode nvarchar(7))', [], nullHandler, errorHandler);
+    }, errorHandler, successCallBack);
+
+}
+
+// list the values in the database to the screen using jquery to
+//update the #lbUsers element
+function ListDBValues() {
+
+    if (!window.openDatabase) {
+        alert('Databases are not supported in this browser.');
+        return;
+    }
+
+    // this line clears out any content in the #lbUsers element on the
+    //page so that the next few lines will show updated
+    // content and not just keep repeating lines
+    $('#lbUsers').html('');
+
+    // this next section will select all the content from the User table
+    //and then go through it row by row
+    //// appending the UserId  FirstName  LastName to the  #lbUsers element
+    //on the page
+    db.transaction(function (transaction) {
+        transaction.executeSql('SELECT * FROM User;', [],
+          function (transaction, result) {
+              if (result != null && result.rows != null) {
+                  for (var i = 0; i < result.rows.length; i++) {
+                      var row = result.rows.item(i);
+                      $('#lbUsers').append('<br>' + row.UserId + '. ' + row.FirstName + ' ' + row.LastName);
+                  }
+              }
+          }, errorHandler);
+    }, errorHandler, nullHandler);
+
+    return;
+
+}
+
+// this is the function that puts values into the database using the
+//values from the text boxes on the screen
+function AddValueToDB() {
+
+    if (!window.openDatabase) {
+        alert('Databases are not supported in this browser.');
+        return;
+    }
+
+    // this is the section that actually inserts the values into the User
+    //table
+    db.transaction(function (transaction) {
+        transaction.executeSql('INSERT INTO User(FirstName, LastName)VALUES (?,?)', [$('#txFirstName').val(), $('#txLastName').val()], nullHandler, errorHandler);
+    });
+
+    // this calls the function that will show what is in the User table in
+    //the database
+    ListDBValues();
+
+    return false;
+
+}
+
+//change up
 function ConnectLocally() {
     $('.activeImg').attr('src', 'assets/img/red.gif');
     //Ask For Static Ip
@@ -6870,7 +6990,7 @@ function GetAccCode() {
         navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
             quality: 20,
             destinationType: destinationType.FILE_URI,
-             saveToPhotoAlbum: true
+            // saveToPhotoAlbum: true
         });
     }
 
